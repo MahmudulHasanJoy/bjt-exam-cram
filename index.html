@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BJT Exam Cram · Boylestad Ch 4 + 5</title>
+<style>
+  :root {
+    --ink: #1b2430;
+    --muted: #5b6573;
+    --paper: #f7f3ea;
+    --card: #fffdf8;
+    --line: #d9d0c0;
+    --navy: #1e3a5f;
+    --signal: #b42318;
+    --ok: #0f6b4c;
+    --warn: #9a6700;
+    --blue: #1d4e89;
+    --chip: #ece6d8;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.45;
+  }
+  header {
+    background: var(--navy);
+    color: #f7f3ea;
+    padding: 28px 20px 20px;
+  }
+  header .wrap, main, footer, nav.toc { max-width: 1080px; margin: 0 auto; }
+  header h1 { margin: 0 0 6px; font-size: 28px; font-weight: 700; }
+  header p { margin: 0; color: #d7deea; max-width: 70ch; }
+  nav.toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 20px;
+    position: sticky;
+    top: 0;
+    background: rgba(247,243,234,.96);
+    border-bottom: 1px solid var(--line);
+    z-index: 5;
+  }
+  nav.toc a {
+    color: var(--navy);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    background: var(--chip);
+    padding: 6px 10px;
+    border-radius: 999px;
+  }
+  main { padding: 18px 20px 80px; }
+  section { margin: 34px 0 48px; }
+  h2 { font-size: 22px; margin: 0 0 12px; color: var(--navy); }
+  h3 { font-size: 17px; margin: 22px 0 8px; }
+  p, li { max-width: 78ch; }
+  .grid { display: grid; gap: 14px; }
+  .g2 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+  .g3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .g4 { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+  .card h3 { margin-top: 0; }
+  .kicker {
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--muted);
+    margin: 0 0 6px;
+  }
+  .formula {
+    font-family: "Cambria Math", "Times New Roman", serif;
+    background: #f3eee3;
+    border-left: 4px solid var(--blue);
+    padding: 8px 12px;
+    margin: 8px 0;
+    overflow-x: auto;
+  }
+  .formula.ok { border-left-color: var(--ok); }
+  .formula.warn { border-left-color: var(--warn); }
+  .formula.bad { border-left-color: var(--signal); }
+  .pill {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--chip);
+  }
+  .pill.red { background: #f8d7d4; color: var(--signal); }
+  .pill.green { background: #d8f3e8; color: var(--ok); }
+  .pill.gold { background: #f7e7c1; color: var(--warn); }
+  .pill.blue { background: #d7e6f5; color: var(--blue); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--card); }
+  th, td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: #ece6d8; }
+  .note { color: var(--muted); font-size: 13px; }
+  .callout {
+    border: 1px solid var(--line);
+    background: #fff8e8;
+    padding: 12px 14px;
+    border-radius: 10px;
+    margin: 12px 0;
+  }
+  .callout.danger { background: #fdecea; }
+  .callout.ok { background: #eaf7f1; }
+  svg.sch { width: 100%; height: auto; background: #fff; border: 1px solid var(--line); border-radius: 10px; }
+  .steps { counter-reset: step; padding-left: 0; list-style: none; }
+  .steps li { margin: 0 0 10px; padding-left: 42px; position: relative; }
+  .steps li::before {
+    counter-increment: step;
+    content: counter(step);
+    position: absolute; left: 0; top: 0;
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--navy); color: #fff;
+    font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  label { display: block; font-size: 12px; font-weight: 700; margin: 8px 0 4px; }
+  input, select, button {
+    font: inherit; padding: 8px 10px; border-radius: 8px;
+    border: 1px solid var(--line); width: 100%;
+  }
+  button {
+    background: var(--navy); color: #fff; font-weight: 700; cursor: pointer; margin-top: 10px;
+  }
+  .result { margin-top: 10px; background: #eaf7f1; padding: 10px 12px; border-radius: 8px; font-family: "Cambria Math", serif; }
+  .hide { display: none; }
+  footer { padding: 20px; color: var(--muted); font-size: 13px; }
+  @media print {
+    nav.toc, .calc, button { display: none !important; }
+    header { background: #fff; color: #000; }
+    .card, section { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <p class="kicker" style="color:#c9d6ea">Boylestad · Electronic Devices and Circuit Theory · 3-hour final</p>
+    <h1>BJT Exam Cram: DC Bias + AC Analysis</h1>
+    <p>Chapter 4.3–4.6, 4.11 and Chapter 5.3–5.6. Identify the circuit in 10 seconds, pick the formula card, then grind the same 4-step loop. Diagrams here are original study sketches, not copies of the textbook.</p>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#plan">3-hour plan</a>
+  <a href="#catch">Catch the question</a>
+  <a href="#id">Circuit ID</a>
+  <a href="#golden">Golden laws</a>
+  <a href="#dc">Ch4 DC</a>
+  <a href="#vdiv">Exact vs approx</a>
+  <a href="#loadline">Load line</a>
+  <a href="#design">Design</a>
+  <a href="#ac">Ch5 AC</a>
+  <a href="#calc">Calculators</a>
+  <a href="#tricks">Memory tricks</a>
+  <a href="#syllabus">Syllabus attack</a>
+</nav>
+
+<main>
+<section id="plan">
+  <h2>Three-hour battle plan</h2>
+  <div class="grid g3">
+    <div class="card">
+      <p class="kicker">Hour 1 · 0:00–1:00</p>
+      <h3>Chapter 4 DC</h3>
+      <p>Master circuit ID, the universal IB formula, load-line two points, and exact vs approximate. Drill Ex 4.1, 4.4, 4.8, 4.9, 4.12.</p>
+    </div>
+    <div class="card">
+      <p class="kicker">Hour 2 · 1:00–2:00</p>
+      <h3>Chapter 5 AC</h3>
+      <p>DC first for IE, then re = 26 mV / IE. Convert any circuit to AC (caps short, VCC ground). Only two Av formulas on this syllabus: −RC/re.</p>
+    </div>
+    <div class="card">
+      <p class="kicker">Hour 3 · 2:00–3:00</p>
+      <h3>Design + mixed</h3>
+      <p>Section 4.11 recipes, then mixed problems from the exact exercise list. Always sanity-check: 0 &lt; VCE &lt; VCC and IC &lt; ICsat.</p>
+    </div>
+  </div>
+</section>
+
+<section id="catch">
+  <h2>How to catch what the question is saying</h2>
+  <p>Every problem is one of five jobs. Circle the verb first, then the circuit.</p>
+  <table>
+    <thead>
+      <tr><th>Question language</th><th>What they want</th><th>What you take from the figure</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>“Determine IB, IC, VCE, VB, VC, VE, VBC”</td><td>DC Q-point analysis</td><td>VCC, all resistors, β. Ignore capacitors (they are open for DC).</td></tr>
+      <tr><td>“Saturation current / ICsat / maximum IC”</td><td>Short C to E, Ohm’s law</td><td>Only VCC and the resistors in the collector–emitter path. β is not used.</td></tr>
+      <tr><td>“Draw the load line / find Q-point from characteristics”</td><td>Two intercepts + IB curve</td><td>x-intercept = VCC, y-intercept = ICsat. Q is where IBQ crosses the line.</td></tr>
+      <tr><td>“Exact / approximate / is the condition satisfied?”</td><td>Voltage-divider method choice</td><td>Test βRE ≥ 10 R2. If yes, approx. If no or they say exact, Thevenin.</td></tr>
+      <tr><td>“Design / find R / determine RB, RC, R1, R2”</td><td>Work backwards with Ohm’s law</td><td>Given ICQ, VCEQ, VCC, β. Set VE ≈ VCC/10 unless they give VE.</td></tr>
+      <tr><td>“re, Zi, Zo, Av” or vi / vo on the figure</td><td>Small-signal AC</td><td>First do DC to get IE. Then caps become shorts, VCC becomes ground.</td></tr>
+      <tr><td>“Sketch the AC equivalent”</td><td>Redraw, no numbers</td><td>Kill DC supplies, short every capacitor, insert the re model.</td></tr>
+    </tbody>
+  </table>
+  <div class="callout">
+    <strong>10-second ID:</strong> How many resistors touch the base, and does the emitter have a resistor?
+    <ul>
+      <li>One resistor VCC→base, emitter at ground → <strong>fixed-bias</strong></li>
+      <li>One resistor VCC→base, RE present → <strong>emitter-bias</strong></li>
+      <li>Two resistors R1 and R2 on the base → <strong>voltage-divider</strong></li>
+      <li>Resistor from collector to base (not from VCC to base) → <strong>collector feedback</strong></li>
+    </ul>
+  </div>
+</section>
+
+<section id="id">
+  <h2>Circuit ID wall — memorize the silhouette</h2>
+  <div class="grid g2">
+    <div class="card">
+      <p class="kicker">4.3 Fixed-bias</p>
+      <svg class="sch" viewBox="0 0 280 210" aria-label="Fixed-bias circuit">
+        <text x="14" y="18" font-size="12" fill="#5b6573">no RE · RB from VCC to base</text>
+        <line x1="40" y1="30" x2="240" y2="30" stroke="#1b2430" stroke-width="2"/>
+        <text x="200" y="24" font-size="12">VCC</text>
+        <rect x="52" y="42" width="18" height="44" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="24" y="68" font-size="12">RB</text>
+        <rect x="188" y="42" width="18" height="44" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="214" y="68" font-size="12">RC</text>
+        <line x1="61" y1="30" x2="61" y2="42" stroke="#1b2430" stroke-width="2"/>
+        <line x1="197" y1="30" x2="197" y2="42" stroke="#1b2430" stroke-width="2"/>
+        <line x1="61" y1="86" x2="61" y2="120" stroke="#1b2430" stroke-width="2"/>
+        <line x1="61" y1="120" x2="120" y2="120" stroke="#1b2430" stroke-width="2"/>
+        <line x1="197" y1="86" x2="197" y2="108" stroke="#1b2430" stroke-width="2"/>
+        <circle cx="140" cy="128" r="22" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <line x1="120" y1="120" x2="128" y2="124" stroke="#1b2430" stroke-width="2"/>
+        <line x1="152" y1="112" x2="197" y2="108" stroke="#1b2430" stroke-width="2"/>
+        <line x1="150" y1="144" x2="150" y2="180" stroke="#1b2430" stroke-width="2"/>
+        <line x1="40" y1="180" x2="240" y2="180" stroke="#1b2430" stroke-width="2"/>
+        <text x="156" y="168" font-size="12">E grounded</text>
+        <polygon points="148,138 158,148 142,150" fill="#1b2430"/>
+      </svg>
+      <div class="formula">IB = (VCC − 0.7) / RB</div>
+    </div>
+    <div class="card">
+      <p class="kicker">4.4 Emitter-bias</p>
+      <svg class="sch" viewBox="0 0 280 210" aria-label="Emitter-bias circuit">
+        <text x="14" y="18" font-size="12" fill="#5b6573">RE added · more stable</text>
+        <line x1="40" y1="28" x2="240" y2="28" stroke="#1b2430" stroke-width="2"/>
+        <rect x="52" y="40" width="18" height="40" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <rect x="188" y="40" width="18" height="40" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="24" y="64" font-size="12">RB</text>
+        <text x="214" y="64" font-size="12">RC</text>
+        <line x1="61" y1="28" x2="61" y2="40" stroke="#1b2430" stroke-width="2"/>
+        <line x1="197" y1="28" x2="197" y2="40" stroke="#1b2430" stroke-width="2"/>
+        <line x1="61" y1="80" x2="61" y2="112" stroke="#1b2430" stroke-width="2"/>
+        <line x1="61" y1="112" x2="118" y2="112" stroke="#1b2430" stroke-width="2"/>
+        <line x1="197" y1="80" x2="197" y2="100" stroke="#1b2430" stroke-width="2"/>
+        <circle cx="138" cy="120" r="22" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <line x1="152" y1="104" x2="197" y2="100" stroke="#1b2430" stroke-width="2"/>
+        <line x1="148" y1="138" x2="148" y2="152" stroke="#1b2430" stroke-width="2"/>
+        <rect x="139" y="152" width="18" height="28" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="164" y="172" font-size="12">RE</text>
+        <line x1="148" y1="180" x2="148" y2="192" stroke="#1b2430" stroke-width="2"/>
+        <line x1="40" y1="192" x2="240" y2="192" stroke="#1b2430" stroke-width="2"/>
+        <polygon points="146,130 156,140 140,142" fill="#1b2430"/>
+      </svg>
+      <div class="formula">IB = (VCC − 0.7) / [RB + (β+1)RE]</div>
+    </div>
+    <div class="card">
+      <p class="kicker">4.5 Voltage-divider</p>
+      <svg class="sch" viewBox="0 0 280 210" aria-label="Voltage-divider bias">
+        <text x="14" y="18" font-size="12" fill="#5b6573">TWO base resistors R1, R2</text>
+        <line x1="40" y1="28" x2="240" y2="28" stroke="#1b2430" stroke-width="2"/>
+        <rect x="46" y="40" width="18" height="32" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="18" y="60" font-size="12">R1</text>
+        <line x1="55" y1="28" x2="55" y2="40" stroke="#1b2430" stroke-width="2"/>
+        <line x1="55" y1="72" x2="55" y2="88" stroke="#1b2430" stroke-width="2"/>
+        <line x1="55" y1="88" x2="118" y2="112" stroke="#1b2430" stroke-width="2"/>
+        <rect x="46" y="100" width="18" height="32" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="18" y="120" font-size="12">R2</text>
+        <line x1="55" y1="132" x2="55" y2="192" stroke="#1b2430" stroke-width="2"/>
+        <rect x="188" y="40" width="18" height="36" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="214" y="62" font-size="12">RC</text>
+        <line x1="197" y1="28" x2="197" y2="40" stroke="#1b2430" stroke-width="2"/>
+        <line x1="197" y1="76" x2="197" y2="100" stroke="#1b2430" stroke-width="2"/>
+        <circle cx="140" cy="120" r="22" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <line x1="154" y1="104" x2="197" y2="100" stroke="#1b2430" stroke-width="2"/>
+        <line x1="150" y1="138" x2="150" y2="152" stroke="#1b2430" stroke-width="2"/>
+        <rect x="141" y="152" width="18" height="26" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="166" y="170" font-size="12">RE</text>
+        <line x1="150" y1="178" x2="150" y2="192" stroke="#1b2430" stroke-width="2"/>
+        <line x1="40" y1="192" x2="240" y2="192" stroke="#1b2430" stroke-width="2"/>
+        <polygon points="148,130 158,140 142,142" fill="#1b2430"/>
+      </svg>
+      <div class="formula">First test: βRE ≥ 10 R2 ?</div>
+    </div>
+    <div class="card">
+      <p class="kicker">4.6 Collector feedback</p>
+      <svg class="sch" viewBox="0 0 280 210" aria-label="Collector-feedback bias">
+        <text x="14" y="18" font-size="12" fill="#5b6573">RF from collector to base</text>
+        <line x1="40" y1="28" x2="240" y2="28" stroke="#1b2430" stroke-width="2"/>
+        <rect x="188" y="40" width="18" height="32" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="214" y="60" font-size="12">RC</text>
+        <line x1="197" y1="28" x2="197" y2="40" stroke="#1b2430" stroke-width="2"/>
+        <line x1="197" y1="72" x2="197" y2="100" stroke="#1b2430" stroke-width="2"/>
+        <line x1="90" y1="72" x2="197" y2="72" stroke="#1b2430" stroke-width="2"/>
+        <rect x="104" y="58" width="52" height="16" fill="#fff" stroke="#1b2430" stroke-width="2"/>
+        <text x="118" y="70" font-size="12">RF</text>
+        <line x1="90" y1="72" x2="90" y2="112" stroke="#1b2430" stroke-width="2"/>
+        <line x1="90" y1="112" x2="118" y2="112" stroke="#1b2430" stroke-width="2"/>
+        <circle cx="140" cy="120" r="22" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <line x1="154" y1="104" x2="197" y2="100" stroke="#1b2430" stroke-width="2"/>
+        <line x1="150" y1="138" x2="150" y2="152" stroke="#1b2430" stroke-width="2"/>
+        <rect x="141" y="152" width="18" height="26" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="166" y="170" font-size="12">RE</text>
+        <line x1="150" y1="178" x2="150" y2="192" stroke="#1b2430" stroke-width="2"/>
+        <line x1="40" y1="192" x2="240" y2="192" stroke="#1b2430" stroke-width="2"/>
+        <polygon points="148,130 158,140 142,142" fill="#1b2430"/>
+      </svg>
+      <div class="formula">IB = (VCC − 0.7) / [RF + β(RC+RE)]</div>
+    </div>
+  </div>
+</section>
+
+<section id="golden">
+  <h2>Three laws used in every DC problem</h2>
+  <div class="grid g3">
+    <div class="card"><div class="formula ok">VBE = 0.7 V (silicon)</div><p class="note">Germanium would be 0.3 V. Your exam is Si unless they say otherwise.</p></div>
+    <div class="card"><div class="formula ok">IC = β IB</div><p class="note">Find IB first. Collector current is beta times that.</p></div>
+    <div class="card"><div class="formula ok">IE = (β+1) IB ≈ IC</div><p class="note">Use ≈ IC for VE = IE RE unless they insist on (β+1).</p></div>
+  </div>
+  <div class="callout ok">
+    <strong>Universal IB pattern (this is the whole chapter):</strong>
+    <div class="formula ok">IB = (available voltage − 0.7) / (base resistor + reflected emitter/collector resistors)</div>
+    <p>Fixed-bias: nothing is reflected. Emitter-bias: RE reflects as (β+1)RE. Voltage-divider exact: RTh is the base resistor, ETh is the available voltage. Collector feedback: RC and RE both reflect as β(RC+RE).</p>
+  </div>
+  <h3>After IB, always the same cleanup</h3>
+  <ol class="steps">
+    <li>IC = β IB</li>
+    <li>If there is RE: VCE = VCC − IC(RC + RE). If no RE: VCE = VCC − IC RC</li>
+    <li>VE = IC RE (0 if no RE). VB = VE + 0.7. VC = VCC − IC RC</li>
+    <li>VBC = VB − VC. Negative means reverse-biased, which is what you want for the active region.</li>
+  </ol>
+</section>
+
+<section id="dc">
+  <h2>Chapter 4 — step-by-step for each type</h2>
+
+  <h3>4.3 Fixed-bias · exercises 1, 2, 3, 5</h3>
+  <div class="grid g2">
+    <div class="card">
+      <p class="kicker">Take from the question</p>
+      <p>VCC, RB, RC, β. Emitter is grounded, so VE = 0 and VB = 0.7 V.</p>
+      <div class="formula">IB = (VCC − VBE) / RB</div>
+      <div class="formula">IC = β IB</div>
+      <div class="formula">VCE = VCC − IC RC</div>
+      <div class="formula">ICsat = VCC / RC</div>
+      <p>If they ask VBC: 0.7 − VC. If they give currents/voltages and ask for a missing resistor, invert Ohm’s law.</p>
+    </div>
+    <div class="card">
+      <p class="kicker">Worked pattern (same as Ex 4.1)</p>
+      <p>VCC = 12 V, RB = 240 kΩ, RC = 2.2 kΩ, β = 50</p>
+      <p>IB = 11.3 / 240k = 47.1 μA<br>IC = 50 × 47.1 μA = 2.35 mA<br>VCE = 12 − 2.35×2.2 = 6.83 V<br>ICsat = 12 / 2.2k = 5.45 mA</p>
+      <p class="note">IC is about half of sat → safely active. If IC were near ICsat, the transistor is saturating and the linear formulas fail.</p>
+    </div>
+  </div>
+
+  <h3>4.4 Emitter-bias · exercises 8, 9, 10, 11</h3>
+  <div class="grid g2">
+    <div class="card">
+      <p class="kicker">Only change from fixed-bias</p>
+      <p>RE is seen from the base multiplied by (β+1). That is the whole trick.</p>
+      <div class="formula">IB = (VCC − VBE) / [RB + (β+1)RE]</div>
+      <div class="formula">VCE = VCC − IC(RC + RE)</div>
+      <div class="formula">VE = IC RE &nbsp;&nbsp; VB = VE + 0.7 &nbsp;&nbsp; VC = VCC − IC RC</div>
+      <div class="formula">ICsat = VCC / (RC + RE)</div>
+    </div>
+    <div class="card">
+      <p class="kicker">Why they added RE</p>
+      <p>If β doubles, fixed-bias IC almost doubles. Emitter-bias IC rises much less because IB falls when β rises. Exam line: “which is more stable?” → emitter-bias (and voltage-divider is even better).</p>
+      <p>Load-line intercepts change too: y-intercept is VCC/(RC+RE), not VCC/RC.</p>
+    </div>
+  </div>
+</section>
+
+<section id="vdiv">
+  <h2>Voltage-divider: exact vs approximate — the difference you must see</h2>
+  <p>Same circuit. Two analysis paths. The exam loves asking you to test the condition, then use the matching path.</p>
+
+  <div class="card" style="margin-bottom:14px">
+    <p class="kicker">The 10× gate</p>
+    <div class="formula warn">If β RE ≥ 10 R2 → approximate is legal. If not → you must use exact (Thevenin).</div>
+    <p>Meaning: the resistance looking into the base, about βRE, is so big compared with R2 that almost no current is stolen from the divider. Then IB ≈ 0 and R1–R2 act like a simple unloaded divider.</p>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <p class="kicker">Exact · always legal</p>
+      <svg class="sch" viewBox="0 0 320 150" aria-label="Exact Thevenin path">
+        <text x="10" y="22" font-size="13">R1, R2 → Thevenin → then same as emitter-bias</text>
+        <rect x="16" y="46" width="70" height="36" fill="none" stroke="#1d4e89" stroke-width="2"/>
+        <text x="28" y="68" font-size="12">RTh, ETh</text>
+        <line x1="86" y1="64" x2="118" y2="64" stroke="#1b2430" stroke-width="2"/>
+        <polygon points="118,64 108,59 108,69" fill="#1b2430"/>
+        <rect x="124" y="46" width="56" height="36" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="136" y="68" font-size="12">VBE</text>
+        <line x1="180" y1="64" x2="210" y2="64" stroke="#1b2430" stroke-width="2"/>
+        <rect x="210" y="46" width="92" height="36" fill="none" stroke="#0f6b4c" stroke-width="2"/>
+        <text x="218" y="68" font-size="12">(β+1)RE</text>
+      </svg>
+      <ol class="steps">
+        <li>RTh = R1 ∥ R2 = R1 R2 / (R1+R2)</li>
+        <li>ETh = R2 VCC / (R1+R2)</li>
+        <li>IB = (ETh − 0.7) / [RTh + (β+1)RE]</li>
+        <li>IC = β IB, then VCE = VCC − IC(RC+RE)</li>
+      </ol>
+      <p class="note">β is used. Q-point still barely moves when β changes, because RTh is small compared with (β+1)RE.</p>
+    </div>
+    <div class="card">
+      <p class="kicker">Approximate · only if 10× holds</p>
+      <svg class="sch" viewBox="0 0 320 150" aria-label="Approximate divider path">
+        <text x="10" y="22" font-size="13">Ignore IB · treat R1–R2 as a plain divider</text>
+        <rect x="16" y="46" width="80" height="36" fill="none" stroke="#9a6700" stroke-width="2"/>
+        <text x="30" y="68" font-size="12">VB from R2</text>
+        <line x1="96" y1="64" x2="128" y2="64" stroke="#1b2430" stroke-width="2"/>
+        <polygon points="128,64 118,59 118,69" fill="#1b2430"/>
+        <rect x="134" y="46" width="70" height="36" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="144" y="68" font-size="12">− 0.7</text>
+        <line x1="204" y1="64" x2="232" y2="64" stroke="#1b2430" stroke-width="2"/>
+        <rect x="232" y="46" width="70" height="36" fill="none" stroke="#0f6b4c" stroke-width="2"/>
+        <text x="244" y="68" font-size="12">VE / RE</text>
+      </svg>
+      <ol class="steps">
+        <li>VB = R2 VCC / (R1+R2) &nbsp; <span class="note">(same number as ETh)</span></li>
+        <li>VE = VB − 0.7</li>
+        <li>IE = VE / RE ≈ IC &nbsp; <span class="note">no IB, no β</span></li>
+        <li>VCE = VCC − IC(RC+RE)</li>
+      </ol>
+      <p class="note">Q-point is independent of β. That is why this bias is the exam favorite for “stable against beta.”</p>
+    </div>
+  </div>
+
+  <h3>Visual: what is actually different?</h3>
+  <table>
+    <thead>
+      <tr><th></th><th>Exact</th><th>Approximate</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Picture in your head</td><td>Divider is loaded by the transistor base</td><td>Divider is unloaded (IB = 0)</td></tr>
+      <tr><td>First voltage</td><td>ETh = R2 VCC/(R1+R2)</td><td>VB = same formula</td></tr>
+      <tr><td>The extra piece</td><td>RTh sits in series with (β+1)RE</td><td>RTh is ignored</td></tr>
+      <tr><td>Uses β?</td><td>Yes, in IB</td><td>No</td></tr>
+      <tr><td>When they match</td><td colspan="2">When βRE ≫ R2, RTh is tiny next to (β+1)RE, so both paths give almost the same IC</td></tr>
+      <tr><td>When they disagree</td><td colspan="2">If βRE is not ≥ 10 R2, approx overestimates IC (book Ex 4.11: 2.59 mA vs 1.98 mA)</td></tr>
+    </tbody>
+  </table>
+  <div class="callout danger">
+    <strong>Exam trap:</strong> ETh and VB use the identical divider formula. Exact vs approx is not two different VB formulas. Exact then subtracts 0.7 across RTh + (β+1)RE. Approx subtracts 0.7 and dumps the leftover on RE only.
+  </div>
+
+  <h3>4.5 exercises 15, 17, 18, 20, 21, 22 — what each type is</h3>
+  <ul>
+    <li><strong>15, 17, 18:</strong> full Q-point. Test 10× first. If the figure gives currents already, they may want you to back-solve a resistor.</li>
+    <li><strong>20:</strong> change β and compare. Voltage-divider IC barely moves; that is the point.</li>
+    <li><strong>21, 22:</strong> often “use exact and approx and compare” or load-line / sat on the same CE loop as emitter-bias: ICsat = VCC/(RC+RE).</li>
+  </ul>
+</section>
+
+<section>
+  <h3>4.6 Collector feedback · exercises 27, 29</h3>
+  <div class="grid g2">
+    <div class="card">
+      <p>RF is attached to the collector, not to VCC. Current through RC is IC + IB ≈ IC.</p>
+      <div class="formula">IB = (VCC − VBE) / [RF + β(RC + RE)]</div>
+      <div class="formula">VCE = VCC − IC(RC + RE)</div>
+      <p>If two feedback resistors with a capacitor to ground between them: for DC the capacitor is open, so RF = RF1 + RF2.</p>
+    </div>
+    <div class="card">
+      <p class="kicker">Stability memory</p>
+      <p>Fixed-bias: IC tracks β one-for-one (worst).<br>
+      Emitter-bias: better.<br>
+      Collector feedback: better still, because RC also reflects.<br>
+      Voltage-divider: best; IC almost independent of β.</p>
+    </div>
+  </div>
+</section>
+
+<section id="loadline">
+  <h2>Load-line analysis — the two points</h2>
+  <p>A straight line needs two points. The transistor curves are IC vs VCE. The circuit equation is also IC vs VCE. Their crossing is the Q-point.</p>
+  <div class="grid g2">
+    <div class="card">
+      <svg class="sch" viewBox="0 0 360 250" aria-label="Load line two intercepts">
+        <text x="70" y="22" font-size="14" font-weight="700">Always plot these two intercepts</text>
+        <line x1="50" y1="220" x2="330" y2="220" stroke="#1b2430" stroke-width="2"/>
+        <line x1="50" y1="220" x2="50" y2="30" stroke="#1b2430" stroke-width="2"/>
+        <text x="300" y="238" font-size="13">VCE</text>
+        <text x="8" y="40" font-size="13">IC</text>
+        <line x1="50" y1="70" x2="290" y2="220" stroke="#b42318" stroke-width="3"/>
+        <circle cx="290" cy="220" r="5" fill="#1d4e89"/>
+        <circle cx="50" cy="70" r="5" fill="#1d4e89"/>
+        <circle cx="170" cy="145" r="6" fill="#0f6b4c"/>
+        <text x="248" y="210" font-size="12">A: IC=0</text>
+        <text x="248" y="196" font-size="12">VCE = VCC</text>
+        <text x="58" y="62" font-size="12">B: VCE=0</text>
+        <text x="58" y="48" font-size="12">IC = ICsat</text>
+        <text x="178" y="142" font-size="13">Q</text>
+        <path d="M60 200 Q 120 190 160 160" fill="none" stroke="#888" stroke-width="1"/>
+        <path d="M60 175 Q 130 165 175 138" fill="none" stroke="#888" stroke-width="1"/>
+        <path d="M60 150 Q 140 140 190 120" fill="none" stroke="#888" stroke-width="1"/>
+        <text x="200" y="80" font-size="12" fill="#5b6573">IB curves</text>
+      </svg>
+    </div>
+    <div class="card">
+      <ol class="steps">
+        <li><strong>Point A (cutoff / x-intercept):</strong> set IC = 0. Then VCE = VCC. Dot on the VCE axis.</li>
+        <li><strong>Point B (saturation / y-intercept):</strong> set VCE = 0. Then IC = ICsat. Dot on the IC axis.</li>
+        <li>Draw the straight line A–B. That is the load line.</li>
+        <li>Find IBQ from the bias formula. The Q-point is where that IB curve hits the line. Read ICQ and VCEQ off the graph.</li>
+      </ol>
+      <table>
+        <thead><tr><th>Config</th><th>Point A</th><th>Point B = ICsat</th></tr></thead>
+        <tbody>
+          <tr><td>Fixed-bias</td><td>VCC</td><td>VCC / RC</td></tr>
+          <tr><td>Emitter-bias</td><td>VCC</td><td>VCC / (RC+RE)</td></tr>
+          <tr><td>Voltage-divider</td><td>VCC</td><td>VCC / (RC+RE)</td></tr>
+          <tr><td>Collector feedback</td><td>VCC</td><td>VCC / (RC+RE)</td></tr>
+        </tbody>
+      </table>
+      <p class="note">If RC increases, point B drops (line becomes flatter). If VCC decreases, point A slides left. IB moving only slides Q along the same line.</p>
+    </div>
+  </div>
+  <div class="callout">
+    <strong>Graph → design (Ex 4.3 style):</strong> x-intercept is VCC. y-intercept is ICsat so R = VCC / ICsat (RC or RC+RE). IBQ is the curve through Q. Then invert the IB formula to get RB.
+  </div>
+</section>
+
+<section id="design">
+  <h2>4.11 Design operations · exercises 41, 42, 43</h2>
+  <p>Analysis: parts given, find currents/voltages. Design: Q-point given, find resistors. The master equation is Ohm’s law: R = VR / IR.</p>
+  <div class="grid g3">
+    <div class="card">
+      <p class="kicker">41 · Fixed-bias design</p>
+      <ol class="steps">
+        <li>If they want VCEQ ≈ VCC/2, then IC RC = VCC/2 so RC = (VCC − VCEQ)/ICQ</li>
+        <li>IB = ICQ / β</li>
+        <li>RB = (VCC − 0.7) / IB</li>
+        <li>Pick nearest standard values</li>
+      </ol>
+    </div>
+    <div class="card">
+      <p class="kicker">42 · Emitter-stab design</p>
+      <ol class="steps">
+        <li>If ICsat given: RC+RE = VCC / ICsat</li>
+        <li>Often ICQ = ½ ICsat</li>
+        <li>RC = (VCC − VC)/ICQ or (VCC − VCE − VE)/IC</li>
+        <li>RE = (VCC/ICsat) − RC</li>
+        <li>RB = (VCC − 0.7)/IB − (β+1)RE</li>
+      </ol>
+    </div>
+    <div class="card">
+      <p class="kicker">43 · Voltage-divider design</p>
+      <ol class="steps">
+        <li>Rule of thumb: VE ≈ VCC / 10</li>
+        <li>RE = VE / ICQ</li>
+        <li>RC = (VCC − VCEQ − VE) / ICQ</li>
+        <li>VB = VE + 0.7</li>
+        <li>Choose R2 ≤ β RE / 10 (so approx is valid)</li>
+        <li>VB = R2 VCC / (R1+R2) → solve R1</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section id="ac">
+  <h2>Chapter 5 — AC in four mechanical steps</h2>
+  <div class="grid g2">
+    <div class="card">
+      <p class="kicker">5.3 Modeling · exercise 5</p>
+      <p>A model replaces the transistor symbol with resistors + a controlled source so you can use ordinary circuit laws.</p>
+      <ol class="steps">
+        <li>DC sources → short (VCC becomes ground)</li>
+        <li>Every capacitor → short (coupling and bypass)</li>
+        <li>Delete parts that got shorted out (a bypassed RE disappears)</li>
+        <li>Redraw and insert the re model</li>
+      </ol>
+    </div>
+    <div class="card">
+      <p class="kicker">Why CE bypass kills RE</p>
+      <svg class="sch" viewBox="0 0 320 120">
+        <text x="12" y="24" font-size="13">DC: CE is open, RE sets the Q-point</text>
+        <text x="12" y="48" font-size="13">AC: CE is a short, RE is gone from the AC circuit</text>
+        <text x="12" y="84" font-size="13">That is why Av is huge (−RC/re) even though DC used RE.</text>
+      </svg>
+      <p class="note">Exercise 5 is usually: sketch the AC equivalent of a given drawing. No calculator. Just short caps and ground the supplies.</p>
+    </div>
+  </div>
+
+  <h3>5.4 The re model · exercises 6, 7, 9, 10</h3>
+  <div class="grid g2">
+    <div class="card">
+      <div class="formula ok">re = 26 mV / IE</div>
+      <p>IE is the DC emitter current from Chapter 4. This is the bridge from DC to AC.</p>
+      <p><strong>Looking into the base (CE):</strong></p>
+      <div class="formula">Zi,base = (β+1) re ≈ β re</div>
+      <p><strong>Looking into the emitter (CB):</strong></p>
+      <div class="formula">Zi,emitter ≈ re &nbsp;&nbsp; (tiny, a few ohms to ~50 Ω)</div>
+      <p>Output: current source β Ib (CE) or α Ie (CB), optional ro in parallel.</p>
+    </div>
+    <div class="card">
+      <svg class="sch" viewBox="0 0 340 170" aria-label="CE re model">
+        <text x="12" y="20" font-size="13">CE re model</text>
+        <text x="20" y="48" font-size="12">B</text>
+        <rect x="40" y="70" width="70" height="22" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="52" y="86" font-size="12">β re</text>
+        <line x1="30" y1="81" x2="40" y2="81" stroke="#1b2430" stroke-width="2"/>
+        <line x1="110" y1="81" x2="110" y2="130" stroke="#1b2430" stroke-width="2"/>
+        <line x1="30" y1="130" x2="250" y2="130" stroke="#1b2430" stroke-width="2"/>
+        <text x="20" y="144" font-size="12">E</text>
+        <text x="258" y="48" font-size="12">C</text>
+        <line x1="250" y1="50" x2="250" y2="90" stroke="#1b2430" stroke-width="2"/>
+        <polygon points="250,90 242,78 258,78" fill="#1b2430"/>
+        <text x="262" y="78" font-size="12">β Ib</text>
+        <line x1="250" y1="90" x2="250" y2="130" stroke="#1b2430" stroke-width="2"/>
+        <text x="140" y="48" font-size="12" fill="#5b6573">input isolated from output</text>
+      </svg>
+      <p>Typical: βre is hundreds of ohms to ~6 kΩ. ro is ~40–50 kΩ. CB input is just re.</p>
+    </div>
+  </div>
+
+  <h3>5.5 CE fixed-bias AC · exercises 11, 12, 13</h3>
+  <ol class="steps">
+    <li>DC: IB = (VCC−0.7)/RB, IE ≈ (β+1)IB, re = 26 mV / IE</li>
+    <li>Zi = RB ∥ βre &nbsp; ≈ βre if RB ≥ 10 βre</li>
+    <li>Zo = RC ∥ ro &nbsp; ≈ RC if ro ≥ 10 RC (or ro = ∞)</li>
+    <li>Av = −(RC ∥ ro) / re &nbsp; ≈ −RC / re</li>
+  </ol>
+  <p>The minus sign is a 180° inversion. Exercise 12 style: they give Av and ask for VCC. Work backwards: |Av| = RC/re so re = RC/|Av|, then IE = 26 mV/re, then IB = IE/(β+1), then VCC = IB RB + 0.7.</p>
+
+  <h3>5.6 Voltage-divider AC · exercises 15, 16, 17</h3>
+  <p>RE is bypassed by CE, so it vanishes from AC. Voltage gain uses the same formula as fixed-bias.</p>
+  <div class="formula ok">R′ = R1 ∥ R2 &nbsp;&nbsp; Zi = R′ ∥ βre &nbsp;&nbsp; Zo ≈ RC &nbsp;&nbsp; Av ≈ −RC / re</div>
+  <div class="callout ok">
+    <strong>The one AC difference vs fixed-bias:</strong> Zi includes R1 ∥ R2 instead of RB. Zo and Av are the same shape. Do not forget: you still need a Chapter 4 DC analysis (exact or approx) to get IE before you can find re.
+  </div>
+</section>
+
+<section>
+  <h2>Side-by-side formula sheet (print this)</h2>
+  <table>
+    <thead>
+      <tr><th>Job</th><th>Fixed-bias</th><th>Emitter-bias</th><th>Voltage-divider</th><th>Collector FB</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>IB</td>
+        <td>(VCC−0.7)/RB</td>
+        <td>(VCC−0.7)/[RB+(β+1)RE]</td>
+        <td>exact: (ETh−0.7)/[RTh+(β+1)RE]<br>approx: skip IB</td>
+        <td>(VCC−0.7)/[RF+β(RC+RE)]</td>
+      </tr>
+      <tr>
+        <td>IC</td>
+        <td>β IB</td>
+        <td>β IB</td>
+        <td>exact: β IB · approx: VE/RE</td>
+        <td>β IB</td>
+      </tr>
+      <tr>
+        <td>VCE</td>
+        <td>VCC − IC RC</td>
+        <td colspan="3">VCC − IC(RC+RE)</td>
+      </tr>
+      <tr>
+        <td>ICsat</td>
+        <td>VCC/RC</td>
+        <td colspan="3">VCC/(RC+RE)</td>
+      </tr>
+      <tr>
+        <td>AC Zi</td>
+        <td>RB ∥ βre</td>
+        <td>not on this syllabus if unbypassed</td>
+        <td>(R1∥R2) ∥ βre</td>
+        <td>not required on this list</td>
+      </tr>
+      <tr>
+        <td>AC Av (RE bypassed)</td>
+        <td>−RC/re</td>
+        <td>−RC/re if CE present</td>
+        <td>−RC/re</td>
+        <td>−RC/re</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="calc" class="calc">
+  <h2>Fast calculators — check your hand work</h2>
+  <div class="grid g2">
+    <div class="card">
+      <h3>DC solver</h3>
+      <label>Configuration</label>
+      <select id="cfg">
+        <option value="fixed">Fixed-bias</option>
+        <option value="emitter">Emitter-bias</option>
+        <option value="vdiv">Voltage-divider</option>
+        <option value="fb">Collector feedback</option>
+      </select>
+      <div class="grid g2">
+        <div><label>VCC (V)</label><input id="vcc" value="12" /></div>
+        <div><label>β</label><input id="beta" value="100" /></div>
+        <div><label>RB or RF (kΩ)</label><input id="rb" value="240" /></div>
+        <div><label>RC (kΩ)</label><input id="rc" value="2.2" /></div>
+        <div><label>RE (kΩ)</label><input id="re" value="1" /></div>
+        <div><label>R1 (kΩ) v-div</label><input id="r1" value="39" /></div>
+        <div><label>R2 (kΩ) v-div</label><input id="r2" value="3.9" /></div>
+        <div><label>VBE (V)</label><input id="vbe" value="0.7" /></div>
+      </div>
+      <button type="button" onclick="solveDC()">Solve DC</button>
+      <div id="dcOut" class="result hide"></div>
+    </div>
+    <div class="card">
+      <h3>AC solver (bypassed RE)</h3>
+      <div class="grid g2">
+        <div><label>IE (mA)</label><input id="ie" value="2.4" /></div>
+        <div><label>β</label><input id="beta2" value="100" /></div>
+        <div><label>RC (kΩ)</label><input id="rc2" value="3" /></div>
+        <div><label>RB or R1∥R2 (kΩ)</label><input id="rin" value="470" /></div>
+        <div><label>ro (kΩ), blank = ∞</label><input id="ro" placeholder="infinite" /></div>
+      </div>
+      <button type="button" onclick="solveAC()">Solve AC</button>
+      <div id="acOut" class="result hide"></div>
+    </div>
+  </div>
+</section>
+
+<section id="tricks">
+  <h2>Memory tricks that actually stick</h2>
+  <div class="grid g2">
+    <div class="card">
+      <h3>IB song</h3>
+      <p><strong>“Leftover volts over leftover ohms.”</strong> Numerator is the supply piece that is not VBE. Denominator is every resistance the base current actually sees, with RE inflated by (β+1).</p>
+    </div>
+    <div class="card">
+      <h3>10× club</h3>
+      <p>If one thing is ≥ 10× the other, drop the bigger parallel partner.</p>
+      <p>βRE ≥ 10 R2 → approx DC<br>RB ≥ 10 βre → Zi ≈ βre<br>ro ≥ 10 RC → Zo ≈ RC and Av ≈ −RC/re</p>
+    </div>
+    <div class="card">
+      <h3>Load line = cutoff + sat</h3>
+      <p>A is “transistor off” (IC=0, whole VCC on the device).<br>B is “transistor short” (VCE=0, whole VCC on the resistors).</p>
+    </div>
+    <div class="card">
+      <h3>re rhyme</h3>
+      <p><strong>Twenty-six over IE.</strong> IE in mA gives re in ohms: 26 mV / 2 mA = 13 Ω. Huge Av because you divide RC by a tiny re.</p>
+    </div>
+    <div class="card">
+      <h3>Units in one second</h3>
+      <p>kΩ × mA = V. μA × kΩ = mV, then convert. If IB comes out in mA, you used kΩ wrong — IB is μA in these circuits.</p>
+    </div>
+    <div class="card">
+      <h3>Caps personality</h3>
+      <p>DC: capacitor = open (blocks DC, isolates stages).<br>AC: capacitor = short (coupling passes signal; bypass kills RE).</p>
+    </div>
+    <div class="card">
+      <h3>Stability ranking</h3>
+      <p>Fixed (worst) → emitter → collector FB → voltage-divider (best). More resistance reflecting into the base loop → less β sensitivity.</p>
+    </div>
+    <div class="card">
+      <h3>Sign of Av</h3>
+      <p>CE output is inverted → negative Av. If your calculator drops the minus, write it in by hand. CB is not inverted (not on this short list except the model).</p>
+    </div>
+  </div>
+</section>
+
+<section id="syllabus">
+  <h2>Your exact syllabus — how to attack each number</h2>
+  <div class="grid g2">
+    <div class="card">
+      <h3>Chapter 4</h3>
+      <table>
+        <tr><th>Item</th><th>Do this</th></tr>
+        <tr><td>4.3 Ex + 1,2,3,5</td><td>Fixed-bias IB→IC→VCE. 3 is often load-line/graph. 5 may be sat or reverse of Ex 4.3.</td></tr>
+        <tr><td>4.4 Ex + 8,9,10,11</td><td>Add (β+1)RE. 9 is load line with RC+RE. 10–11 given mixed voltages, find the rest.</td></tr>
+        <tr><td>4.5 Ex + 15,17,18,20,21,22</td><td>Always write the 10× test first. 20 is β-change comparison.</td></tr>
+        <tr><td>4.6 Ex + 27,29</td><td>RF in the IB denominator with β(RC+RE). Watch RF1+RF2 if a cap splits them.</td></tr>
+        <tr><td>4.11 Ex + 41,42,43</td><td>R = V/I. VE = VCC/10 if they do not give VE. R2 ≤ βRE/10 for divider design.</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>Chapter 5</h3>
+      <table>
+        <tr><th>Item</th><th>Do this</th></tr>
+        <tr><td>5.3 Ex + 5</td><td>Sketch AC equivalent. Short caps, ground VCC, keep R1 R2 RC, drop bypassed RE.</td></tr>
+        <tr><td>5.4 Ex + 6,7,9,10</td><td>re = 26/IE. Zi ≈ βre (CE) or re (CB). 7,10 common-base numbers.</td></tr>
+        <tr><td>5.5 Ex + 11,12,13</td><td>Full Zi, Zo, Av for CE fixed-bias. 12 is reverse: given Av, find VCC.</td></tr>
+        <tr><td>5.6 Ex + 15,16,17</td><td>DC divider first for IE, then same Av = −RC/re, Zi = (R1∥R2)∥βre.</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="callout">
+    <strong>Last 15 minutes of study:</strong> cover the formula sheet and redraw the four silhouettes from memory. Then solve one of each: fixed, emitter, divider exact, divider approx, collector FB, load line, design, re, Av. If those eight are clean, you can handle the paper.
+  </div>
+</section>
+</main>
+<footer>
+  Original study notes for Boylestad Chapters 4–5 (sections on your exam list). Circuit drawings are schematic study aids, not textbook scans.
+</footer>
+<script>
+function n(id){ return parseFloat(document.getElementById(id).value); }
+function fmt(x, u){
+  if (!isFinite(x)) return "—";
+  const ax = Math.abs(x);
+  if (u === "A") {
+    if (ax < 1e-3) return (x*1e6).toFixed(2) + " μA";
+    if (ax < 1) return (x*1e3).toFixed(3) + " mA";
+    return x.toFixed(3) + " A";
+  }
+  return x.toFixed(3) + " " + u;
+}
+function solveDC(){
+  const cfg = document.getElementById("cfg").value;
+  const VCC = n("vcc"), beta = n("beta"), VBE = n("vbe");
+  const RB = n("rb")*1e3, RC = n("rc")*1e3, RE = n("re")*1e3;
+  const R1 = n("r1")*1e3, R2 = n("r2")*1e3;
+  let html = "";
+  let IB, IC, VCE, ICsat;
+  if (cfg === "fixed") {
+    IB = (VCC - VBE) / RB;
+    IC = beta * IB;
+    VCE = VCC - IC*RC;
+    ICsat = VCC / RC;
+    html = "IB = (VCC−VBE)/RB<br>";
+  } else if (cfg === "emitter") {
+    IB = (VCC - VBE) / (RB + (beta+1)*RE);
+    IC = beta * IB;
+    VCE = VCC - IC*(RC+RE);
+    ICsat = VCC / (RC+RE);
+    html = "IB = (VCC−VBE)/[RB+(β+1)RE]<br>";
+  } else if (cfg === "vdiv") {
+    const RTh = (R1*R2)/(R1+R2);
+    const ETh = R2*VCC/(R1+R2);
+    const test = beta*RE >= 10*R2;
+    IB = (ETh - VBE) / (RTh + (beta+1)*RE);
+    const ICex = beta * IB;
+    const VB = ETh;
+    const VE = VB - VBE;
+    const ICap = VE / RE;
+    const VCEex = VCC - ICex*(RC+RE);
+    const VCEap = VCC - ICap*(RC+RE);
+    ICsat = VCC / (RC+RE);
+    html = `10× test βRE ≥ 10 R2? <b>${test ? "YES → approx OK" : "NO → use exact"}</b><br>
+      RTh = ${fmt(RTh/1e3,"kΩ")} &nbsp; ETh = VB = ${fmt(ETh,"V")}<br>
+      Exact: IB = ${fmt(IB,"A")}, IC = ${fmt(ICex,"A")}, VCE = ${fmt(VCEex,"V")}<br>
+      Approx: IC ≈ ${fmt(ICap,"A")}, VCE ≈ ${fmt(VCEap,"V")}<br>
+      ICsat = ${fmt(ICsat,"A")}`;
+    const box = document.getElementById("dcOut");
+    box.classList.remove("hide"); box.innerHTML = html; return;
+  } else {
+    IB = (VCC - VBE) / (RB + beta*(RC+RE));
+    IC = beta * IB;
+    VCE = VCC - IC*(RC+RE);
+    ICsat = VCC / (RC+RE);
+    html = "IB = (VCC−VBE)/[RF+β(RC+RE)]<br>";
+  }
+  html += `IB = ${fmt(IB,"A")}<br>IC = ${fmt(IC,"A")}<br>VCE = ${fmt(VCE,"V")}<br>ICsat = ${fmt(ICsat,"A")}`;
+  if (IC > 0.9*ICsat) html += "<br><b>Warning: near saturation.</b>";
+  const box = document.getElementById("dcOut");
+  box.classList.remove("hide"); box.innerHTML = html;
+}
+function solveAC(){
+  const IE = n("ie")*1e-3, beta = n("beta2"), RC = n("rc2")*1e3, Rin = n("rin")*1e3;
+  const roRaw = document.getElementById("ro").value;
+  const re = 0.026 / IE;
+  const bre = beta * re;
+  const Zi = 1 / (1/Rin + 1/bre);
+  let RcP = RC, note = "ro ignored";
+  if (roRaw) {
+    const ro = parseFloat(roRaw)*1e3;
+    RcP = 1 / (1/RC + 1/ro);
+    note = "using RC ∥ ro";
+  }
+  const Av = -RcP / re;
+  const html = `re = 26 mV / IE = ${re.toFixed(2)} Ω<br>
+    βre = ${fmt(bre,"Ω").replace(" Ω", " Ω")}<br>
+    Zi = R_in ∥ βre = ${fmt(Zi,"Ω")}<br>
+    Zo ≈ ${fmt(RcP,"Ω")} (${note})<br>
+    Av = ${Av.toFixed(2)}`;
+  const box = document.getElementById("acOut");
+  box.classList.remove("hide"); box.innerHTML = html;
+}
+</script>
+</body>
+</html>
