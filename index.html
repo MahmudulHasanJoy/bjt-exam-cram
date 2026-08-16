@@ -166,6 +166,7 @@
   <a href="#ac">Ch5 AC</a>
   <a href="#photos">Your 2 pages</a>
   <a href="#loaded">Ai Case 1 vs 2</a>
+  <a href="#ro">gos → ro</a>
   <a href="#ch5cheat">Ch5 cheat</a>
   <a href="#calc">Calculators</a>
   <a href="#tricks">Memory tricks</a>
@@ -799,6 +800,67 @@
   </table>
 </section>
 
+<section id="ro">
+  <h2>Finding ro from gos (or hoe) — reciprocal math</h2>
+  <p>Datasheets often do not print ro in ohms. They print an <strong>output conductance</strong>. Conductance is simply “how easily current flows.” Resistance is the opposite, so they are reciprocals.</p>
+  <div class="formula ok">gos = 1 / ro &nbsp;&nbsp; and &nbsp;&nbsp; ro = 1 / gos</div>
+  <p>Same idea for the hybrid parameter: <strong>hoe</strong> is also an output admittance in siemens, so <strong>ro = 1 / hoe</strong>. If the problem says gos, hoe, or yos, treat them the same for this step: invert, watch the μ.</p>
+
+  <div class="grid g2">
+    <div class="card">
+      <p class="kicker">The basic</p>
+      <p>Ohm’s law is V = I R. Conductance G is defined by I = G V, so G = 1/R. Unit of G is the siemens (S), old name mho.</p>
+      <p><strong>μ means 10<sup>−6</sup>.</strong> So 20 μS = 20 × 10<sup>−6</sup> S.</p>
+      <div class="formula">1 S = 1 / 1 Ω &nbsp;&nbsp; 1 μS = 1 / 1 MΩ</div>
+      <p>That last line is the exam shortcut: <strong>1 μS ↔ 1 MΩ</strong>. Then 20 μS is 20 times easier than 1 μS, so resistance is 20 times smaller than 1 MΩ.</p>
+    </div>
+    <div class="card">
+      <p class="kicker">Your notebook example</p>
+      <ol class="steps">
+        <li>gos = 1 / ro</li>
+        <li>ro = 1 / gos</li>
+        <li>gos = 20 μS</li>
+        <li>ro = 1 / (20 × 10<sup>−6</sup> S)</li>
+        <li>ro = 50,000 Ω</li>
+        <li>50,000 / 1000 = <strong>50 kΩ</strong></li>
+      </ol>
+      <div class="formula ok">Shortcut: ro (kΩ) = 1000 / gos(μS) &nbsp; → &nbsp; 1000 / 20 = 50 kΩ</div>
+    </div>
+  </div>
+
+  <h3>Where this number goes</h3>
+  <div class="grid g2">
+    <div class="card">
+      <svg class="sch" viewBox="0 0 300 160" aria-label="ro parallel with current source">
+        <text x="10" y="22" font-size="13">ro sits across the collector current source</text>
+        <line x1="80" y1="40" x2="80" y2="60" stroke="#1b2430" stroke-width="2"/>
+        <polygon points="80,82 73,60 87,60" fill="#1b2430"/>
+        <text x="92" y="72" font-size="12">β Ib</text>
+        <line x1="80" y1="82" x2="80" y2="140" stroke="#1b2430" stroke-width="2"/>
+        <rect x="150" y="50" width="18" height="70" fill="none" stroke="#1d4e89" stroke-width="2"/>
+        <text x="176" y="90" font-size="13">ro = 50 kΩ</text>
+        <line x1="80" y1="50" x2="150" y2="50" stroke="#1b2430" stroke-width="2"/>
+        <line x1="80" y1="120" x2="150" y2="120" stroke="#1b2430" stroke-width="2"/>
+        <line x1="40" y1="140" x2="220" y2="140" stroke="#1b2430" stroke-width="2"/>
+        <text x="40" y="40" font-size="12">C</text>
+        <text x="40" y="136" font-size="12">E</text>
+      </svg>
+      <p>Then RC (and RL if present) go in parallel with this ro. That is why Case 1 asked “is ro ≥ 10 RC?”</p>
+    </div>
+    <div class="card">
+      <p class="kicker">After you have 50 kΩ</p>
+      <p>Test: if RC = 3 kΩ, is 50 kΩ ≥ 10 × 3 kΩ = 30 kΩ? Yes. Ignore ro for Zo and Av.</p>
+      <p>If they still want the exact value:</p>
+      <div class="formula">Zo = RC ∥ ro = 3 kΩ ∥ 50 kΩ = 2.83 kΩ</div>
+      <div class="formula">Av = − (RC ∥ ro) / re</div>
+      <p>If gos is not given, and the problem never mentions ro or hoe, treat ro as infinite and skip it.</p>
+    </div>
+  </div>
+  <div class="callout">
+    <strong>Catch the question:</strong> “gos = 20 μS” or “hoe = 20 μS” is not a new circuit. It is only asking you to make ro first, then use the usual Zi, Zo, Av steps.
+  </div>
+</section>
+
 <section id="loaded">
   <h2>Your third page: Case 1 vs Case 2 — this is loaded-amplifier math</h2>
   <p>Until the last two pages, Vo was taken across RC only. This page adds an extra resistor <strong>RL</strong> (a speaker, the next stage, a given load). Now collector current must <strong>split</strong>. That split is current gain Ai. Voltage gain Av is built from the same picture.</p>
@@ -961,12 +1023,14 @@
   </div>
   <p class="note">Worked shape (fixed-bias Ex 5.1): VCC=12 V, RB=470 kΩ, RC=3 kΩ, β=100 → IB=24.0 μA, IE=2.43 mA, re=10.7 Ω, Zi≈1.07 kΩ, Zo=3 kΩ, Av≈ −280.</p>
 
-  <h3>Type C — They give ro (compare with and without)</h3>
+  <h3>Type C — They give gos, hoe, or ro</h3>
   <div class="card">
-    <p>Do Type B once with ro = ∞. Then:</p>
+    <p>If they give gos or hoe in μS, invert first. Full steps: <a href="#ro">gos → ro</a>.</p>
+    <div class="formula">ro = 1 / gos = 1000 / gos(μS) &nbsp; kΩ</div>
+    <p>Example: 20 μS → 50 kΩ. Then do Type B once with ro = ∞, and once with this ro:</p>
     <div class="formula">Zo = RC ∥ ro = RC ro / (RC + ro)</div>
     <div class="formula">Av = − (RC ∥ ro) / re</div>
-    <p>|Av| and Zo both drop a little. If ro = 50 kΩ and RC = 3 kΩ, RC∥ro = 2.83 kΩ, so Av is about 6% smaller. That is the expected comparison sentence.</p>
+    <p>|Av| and Zo both drop a little. If ro = 50 kΩ and RC = 3 kΩ, RC∥ro = 2.83 kΩ, so Av is about 6% smaller.</p>
   </div>
 
   <h3>Type D — Reverse: given Av, find VCC or RC (5.5 ex 12, 5.6 ex 16)</h3>
@@ -1096,6 +1160,13 @@
       <div id="acOut" class="result hide"></div>
     </div>
   </div>
+  <div class="card" style="margin-top:14px;max-width:420px">
+    <h3>gos / hoe → ro</h3>
+    <label>gos or hoe (μS)</label>
+    <input id="gos" value="20" />
+    <button type="button" onclick="solveGos()">Convert to ro</button>
+    <div id="gosOut" class="result hide"></div>
+  </div>
 </section>
 
 <section id="tricks">
@@ -1117,6 +1188,10 @@
     <div class="card">
       <h3>re rhyme</h3>
       <p><strong>Twenty-six over IE.</strong> IE in mA gives re in ohms: 26 mV / 2 mA = 13 Ω. Huge Av because you divide RC by a tiny re.</p>
+    </div>
+    <div class="card">
+      <h3>μS flip</h3>
+      <p><strong>1 μS = 1 MΩ.</strong> ro (kΩ) = 1000 / gos(μS). 20 μS → 50 kΩ. 25 μS → 40 kΩ. 10 μS → 100 kΩ.</p>
     </div>
     <div class="card">
       <h3>Units in one second</h3>
@@ -1251,6 +1326,15 @@ function solveAC(){
     Zo ≈ ${fmt(RcP,"Ω")} (${note})<br>
     Av = ${Av.toFixed(2)}`;
   const box = document.getElementById("acOut");
+  box.classList.remove("hide"); box.innerHTML = html;
+}
+function solveGos(){
+  const g = n("gos");
+  const roOhm = 1 / (g * 1e-6);
+  const html = `gos = ${g} μS = ${g} × 10<sup>−6</sup> S<br>
+    ro = 1 / gos = ${roOhm.toLocaleString()} Ω = <b>${(roOhm/1000).toFixed(2)} kΩ</b><br>
+    Shortcut: 1000 / ${g} = ${(1000/g).toFixed(2)} kΩ`;
+  const box = document.getElementById("gosOut");
   box.classList.remove("hide"); box.innerHTML = html;
 }
 </script>
