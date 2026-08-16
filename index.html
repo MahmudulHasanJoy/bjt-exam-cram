@@ -158,6 +158,7 @@
   <a href="#plan">3-hour plan</a>
   <a href="#catch">Catch the question</a>
   <a href="#id">Circuit ID</a>
+  <a href="#draw">Draw these</a>
   <a href="#golden">Golden laws</a>
   <a href="#dc">Ch4 DC</a>
   <a href="#vdiv">Exact vs approx</a>
@@ -330,6 +331,334 @@
       <div class="formula">IB = (VCC − 0.7) / [RF + β(RC+RE)]</div>
     </div>
   </div>
+</section>
+
+<section id="draw">
+  <h2>Most important circuits to draw</h2>
+  <p>If you can redraw these eight from memory, with the labels in red below, you can start almost every problem on this paper. Practice each in under a minute.</p>
+  <div class="callout ok">
+    <strong>On every drawing write:</strong> B, C, E · ground · VCC · resistor names · current arrows IB, IC, IE (npn: into base, into collector, out of emitter) · for AC also Zi, Zo, Vi, Vo.
+  </div>
+
+  <h3>1–4 · DC bias (Chapter 4)</h3>
+  <div class="grid g2">
+    <div class="card">
+      <p class="kicker">1 · Fixed-bias · draw first</p>
+      <svg class="sch" viewBox="0 0 320 250" aria-label="Fixed-bias to draw">
+        <text x="8" y="16" font-size="11" fill="#5b6573">no RE · emitter to ground</text>
+        <line x1="40" y1="36" x2="280" y2="36" stroke="#1b2430" stroke-width="2"/>
+        <text x="232" y="30" font-size="13" font-weight="700">VCC</text>
+        <rect x="58" y="48" width="14" height="46" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="28" y="76" font-size="13">RB</text>
+        <rect x="214" y="48" width="14" height="46" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="234" y="76" font-size="13">RC</text>
+        <line x1="65" y1="36" x2="65" y2="48" stroke="#1b2430" stroke-width="2"/>
+        <line x1="221" y1="36" x2="221" y2="48" stroke="#1b2430" stroke-width="2"/>
+        <line x1="65" y1="94" x2="65" y2="128" stroke="#1b2430" stroke-width="2"/>
+        <line x1="65" y1="128" x2="118" y2="128" stroke="#1b2430" stroke-width="2"/>
+        <line x1="221" y1="94" x2="221" y2="118" stroke="#1b2430" stroke-width="2"/>
+        <line x1="148" y1="118" x2="221" y2="118" stroke="#1b2430" stroke-width="2"/>
+        <line x1="128" y1="108" x2="128" y2="148" stroke="#1b2430" stroke-width="3"/>
+        <line x1="118" y1="128" x2="128" y2="128" stroke="#1b2430" stroke-width="2"/>
+        <line x1="128" y1="112" x2="148" y2="118" stroke="#1b2430" stroke-width="2"/>
+        <line x1="128" y1="144" x2="148" y2="156" stroke="#1b2430" stroke-width="2"/>
+        <polygon points="148,156 136,154 142,146" fill="#1b2430"/>
+        <text x="100" y="118" font-size="12">B</text>
+        <text x="154" y="112" font-size="12">C</text>
+        <text x="154" y="168" font-size="12">E</text>
+        <line x1="148" y1="156" x2="148" y2="210" stroke="#1b2430" stroke-width="2"/>
+        <line x1="40" y1="210" x2="280" y2="210" stroke="#1b2430" stroke-width="2"/>
+        <line x1="148" y1="210" x2="148" y2="222" stroke="#1b2430" stroke-width="2"/>
+        <line x1="138" y1="222" x2="158" y2="222" stroke="#1b2430" stroke-width="2"/>
+        <line x1="142" y1="226" x2="154" y2="226" stroke="#1b2430" stroke-width="2"/>
+        <line x1="145" y1="230" x2="151" y2="230" stroke="#1b2430" stroke-width="2"/>
+        <text x="72" y="122" font-size="11" fill="#b42318">IB →</text>
+        <text x="168" y="108" font-size="11" fill="#b42318">IC ↓</text>
+        <text x="158" y="188" font-size="11" fill="#b42318">IE ↓</text>
+        <text x="168" y="140" font-size="11">VCE</text>
+      </svg>
+      <p class="note">Must label: RB, RC, VCC, ground, B/C/E. IB from VCC through RB. No R1/R2, no RE.</p>
+    </div>
+    <div class="card">
+      <p class="kicker">2 · Emitter-bias</p>
+      <svg class="sch" viewBox="0 0 320 250" aria-label="Emitter-bias to draw">
+        <text x="8" y="16" font-size="11" fill="#5b6573">same as fixed-bias + RE</text>
+        <line x1="40" y1="36" x2="280" y2="36" stroke="#1b2430" stroke-width="2"/>
+        <text x="232" y="30" font-size="13" font-weight="700">VCC</text>
+        <rect x="58" y="48" width="14" height="40" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="28" y="72" font-size="13">RB</text>
+        <rect x="214" y="48" width="14" height="40" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="234" y="72" font-size="13">RC</text>
+        <line x1="65" y1="36" x2="65" y2="48" stroke="#1b2430" stroke-width="2"/>
+        <line x1="221" y1="36" x2="221" y2="48" stroke="#1b2430" stroke-width="2"/>
+        <line x1="65" y1="88" x2="65" y2="124" stroke="#1b2430" stroke-width="2"/>
+        <line x1="65" y1="124" x2="118" y2="124" stroke="#1b2430" stroke-width="2"/>
+        <line x1="221" y1="88" x2="221" y2="114" stroke="#1b2430" stroke-width="2"/>
+        <line x1="148" y1="114" x2="221" y2="114" stroke="#1b2430" stroke-width="2"/>
+        <line x1="128" y1="104" x2="128" y2="144" stroke="#1b2430" stroke-width="3"/>
+        <line x1="118" y1="124" x2="128" y2="124" stroke="#1b2430" stroke-width="2"/>
+        <line x1="128" y1="108" x2="148" y2="114" stroke="#1b2430" stroke-width="2"/>
+        <line x1="128" y1="140" x2="148" y2="152" stroke="#1b2430" stroke-width="2"/>
+        <polygon points="148,152 136,150 142,142" fill="#1b2430"/>
+        <line x1="148" y1="152" x2="148" y2="166" stroke="#1b2430" stroke-width="2"/>
+        <rect x="141" y="166" width="14" height="32" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="162" y="186" font-size="13">RE</text>
+        <line x1="148" y1="198" x2="148" y2="218" stroke="#1b2430" stroke-width="2"/>
+        <line x1="40" y1="218" x2="280" y2="218" stroke="#1b2430" stroke-width="2"/>
+        <text x="100" y="114" font-size="12">B</text>
+        <text x="154" y="108" font-size="12">C</text>
+        <text x="154" y="158" font-size="12">E</text>
+        <text x="162" y="210" font-size="11" fill="#b42318">VE = IE RE</text>
+      </svg>
+      <p class="note">Must label RE. From the base, RE looks like (β+1)RE. Load-line y-intercept uses RC+RE.</p>
+    </div>
+    <div class="card">
+      <p class="kicker">3 · Voltage-divider + bypass CE</p>
+      <svg class="sch" viewBox="0 0 320 260" aria-label="Voltage-divider to draw">
+        <text x="8" y="16" font-size="11" fill="#5b6573">TWO base resistors · CE across RE</text>
+        <line x1="40" y1="32" x2="280" y2="32" stroke="#1b2430" stroke-width="2"/>
+        <text x="232" y="26" font-size="13" font-weight="700">VCC</text>
+        <rect x="50" y="44" width="14" height="28" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="22" y="62" font-size="13">R1</text>
+        <line x1="57" y1="32" x2="57" y2="44" stroke="#1b2430" stroke-width="2"/>
+        <line x1="57" y1="72" x2="57" y2="86" stroke="#1b2430" stroke-width="2"/>
+        <line x1="57" y1="86" x2="118" y2="124" stroke="#1b2430" stroke-width="2"/>
+        <rect x="50" y="96" width="14" height="28" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="22" y="114" font-size="13">R2</text>
+        <line x1="57" y1="124" x2="57" y2="228" stroke="#1b2430" stroke-width="2"/>
+        <rect x="214" y="44" width="14" height="36" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="234" y="66" font-size="13">RC</text>
+        <line x1="221" y1="32" x2="221" y2="44" stroke="#1b2430" stroke-width="2"/>
+        <line x1="221" y1="80" x2="221" y2="114" stroke="#1b2430" stroke-width="2"/>
+        <line x1="148" y1="114" x2="221" y2="114" stroke="#1b2430" stroke-width="2"/>
+        <line x1="128" y1="104" x2="128" y2="144" stroke="#1b2430" stroke-width="3"/>
+        <line x1="118" y1="124" x2="128" y2="124" stroke="#1b2430" stroke-width="2"/>
+        <line x1="128" y1="108" x2="148" y2="114" stroke="#1b2430" stroke-width="2"/>
+        <line x1="128" y1="140" x2="148" y2="152" stroke="#1b2430" stroke-width="2"/>
+        <polygon points="148,152 136,150 142,142" fill="#1b2430"/>
+        <line x1="148" y1="152" x2="148" y2="166" stroke="#1b2430" stroke-width="2"/>
+        <rect x="141" y="166" width="14" height="28" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="162" y="184" font-size="13">RE</text>
+        <rect x="176" y="166" width="22" height="28" fill="none" stroke="#b42318" stroke-width="2"/>
+        <text x="202" y="184" font-size="12" fill="#b42318">CE</text>
+        <line x1="148" y1="194" x2="148" y2="228" stroke="#1b2430" stroke-width="2"/>
+        <line x1="187" y1="194" x2="187" y2="228" stroke="#b42318" stroke-width="2"/>
+        <line x1="40" y1="228" x2="280" y2="228" stroke="#1b2430" stroke-width="2"/>
+        <text x="8" y="86" font-size="11" fill="#b42318">base tap</text>
+        <text x="96" y="118" font-size="12">B</text>
+        <text x="154" y="108" font-size="12">C</text>
+        <text x="154" y="158" font-size="12">E</text>
+        <text x="12" y="248" font-size="11">C1 to base, C2 from collector if it is an amplifier</text>
+      </svg>
+      <p class="note">Must show R1 above the tap, R2 below, CE across RE. DC: CE is open. AC: CE shorts RE away.</p>
+    </div>
+    <div class="card">
+      <p class="kicker">4 · Exact analysis Thevenin (draw beside #3)</p>
+      <svg class="sch" viewBox="0 0 320 220" aria-label="Thevenin equivalent to draw">
+        <text x="8" y="18" font-size="11" fill="#5b6573">kill VCC · look into base</text>
+        <text x="16" y="48" font-size="13">ETh</text>
+        <line x1="40" y1="70" x2="70" y2="70" stroke="#1b2430" stroke-width="2"/>
+        <line x1="40" y1="58" x2="40" y2="82" stroke="#1b2430" stroke-width="2"/>
+        <line x1="34" y1="62" x2="46" y2="62" stroke="#1b2430" stroke-width="2"/>
+        <line x1="36" y1="78" x2="44" y2="78" stroke="#1b2430" stroke-width="2"/>
+        <rect x="70" y="58" width="70" height="24" fill="none" stroke="#1d4e89" stroke-width="2"/>
+        <text x="84" y="75" font-size="13">RTh</text>
+        <line x1="140" y1="70" x2="168" y2="70" stroke="#1b2430" stroke-width="2"/>
+        <text x="172" y="64" font-size="12">B</text>
+        <line x1="176" y1="58" x2="176" y2="82" stroke="#1b2430" stroke-width="3"/>
+        <line x1="176" y1="62" x2="210" y2="50" stroke="#1b2430" stroke-width="2"/>
+        <line x1="176" y1="78" x2="210" y2="100" stroke="#1b2430" stroke-width="2"/>
+        <polygon points="210,100 198,96 204,88" fill="#1b2430"/>
+        <text x="214" y="54" font-size="12">C</text>
+        <text x="214" y="108" font-size="12">E</text>
+        <line x1="210" y1="100" x2="210" y2="128" stroke="#1b2430" stroke-width="2"/>
+        <rect x="203" y="128" width="14" height="36" fill="none" stroke="#0f6b4c" stroke-width="2"/>
+        <text x="222" y="150" font-size="13">(β+1)RE</text>
+        <line x1="210" y1="164" x2="210" y2="190" stroke="#1b2430" stroke-width="2"/>
+        <line x1="40" y1="190" x2="260" y2="190" stroke="#1b2430" stroke-width="2"/>
+        <text x="16" y="210" font-size="12">RTh = R1∥R2 &nbsp; ETh = R2 VCC/(R1+R2)</text>
+      </svg>
+      <p class="note">This is the exact-analysis drawing. One loop: ETh − IB RTh − 0.7 − IE RE = 0.</p>
+    </div>
+  </div>
+
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card">
+      <p class="kicker">5 · Collector feedback</p>
+      <svg class="sch" viewBox="0 0 320 230" aria-label="Collector feedback to draw">
+        <text x="8" y="16" font-size="11" fill="#5b6573">RF from collector to base, not from VCC</text>
+        <line x1="40" y1="32" x2="280" y2="32" stroke="#1b2430" stroke-width="2"/>
+        <text x="232" y="26" font-size="13" font-weight="700">VCC</text>
+        <rect x="214" y="44" width="14" height="32" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="234" y="64" font-size="13">RC</text>
+        <line x1="221" y1="32" x2="221" y2="44" stroke="#1b2430" stroke-width="2"/>
+        <line x1="221" y1="76" x2="221" y2="88" stroke="#1b2430" stroke-width="2"/>
+        <line x1="90" y1="88" x2="221" y2="88" stroke="#1b2430" stroke-width="2"/>
+        <rect x="118" y="76" width="56" height="24" fill="#fff" stroke="#b42318" stroke-width="2"/>
+        <text x="134" y="93" font-size="13" fill="#b42318">RF</text>
+        <line x1="90" y1="88" x2="90" y2="124" stroke="#1b2430" stroke-width="2"/>
+        <line x1="90" y1="124" x2="118" y2="124" stroke="#1b2430" stroke-width="2"/>
+        <line x1="148" y1="114" x2="221" y2="114" stroke="#1b2430" stroke-width="2"/>
+        <line x1="128" y1="104" x2="128" y2="144" stroke="#1b2430" stroke-width="3"/>
+        <line x1="118" y1="124" x2="128" y2="124" stroke="#1b2430" stroke-width="2"/>
+        <line x1="128" y1="108" x2="148" y2="114" stroke="#1b2430" stroke-width="2"/>
+        <line x1="128" y1="140" x2="148" y2="152" stroke="#1b2430" stroke-width="2"/>
+        <polygon points="148,152 136,150 142,142" fill="#1b2430"/>
+        <line x1="148" y1="152" x2="148" y2="166" stroke="#1b2430" stroke-width="2"/>
+        <rect x="141" y="166" width="14" height="28" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="162" y="184" font-size="13">RE</text>
+        <line x1="148" y1="194" x2="148" y2="214" stroke="#1b2430" stroke-width="2"/>
+        <line x1="40" y1="214" x2="280" y2="214" stroke="#1b2430" stroke-width="2"/>
+      </svg>
+      <p class="note">If a capacitor splits RF into RF1 and RF2, DC uses RF = RF1+RF2 (cap is open).</p>
+    </div>
+    <div class="card">
+      <p class="kicker">6 · Load line (two points)</p>
+      <svg class="sch" viewBox="0 0 320 230" aria-label="Load line to draw">
+        <line x1="50" y1="200" x2="300" y2="200" stroke="#1b2430" stroke-width="2"/>
+        <line x1="50" y1="200" x2="50" y2="24" stroke="#1b2430" stroke-width="2"/>
+        <text x="270" y="218" font-size="13">VCE</text>
+        <text x="8" y="36" font-size="13">IC</text>
+        <line x1="50" y1="50" x2="260" y2="200" stroke="#b42318" stroke-width="3"/>
+        <circle cx="260" cy="200" r="5" fill="#1d4e89"/>
+        <circle cx="50" cy="50" r="5" fill="#1d4e89"/>
+        <circle cx="155" cy="125" r="6" fill="#0f6b4c"/>
+        <text x="200" y="188" font-size="12">A: (VCC, 0)</text>
+        <text x="58" y="42" font-size="12">B: (0, ICsat)</text>
+        <text x="164" y="122" font-size="13">Q</text>
+        <path d="M58 180 Q 110 170 148 132" fill="none" stroke="#888"/>
+        <path d="M58 155 Q 120 145 162 118" fill="none" stroke="#888"/>
+        <text x="200" y="70" font-size="12">IB curves</text>
+        <text x="70" y="218" font-size="11">cutoff</text>
+        <text x="8" y="70" font-size="11">sat</text>
+      </svg>
+      <p class="note">A always VCC. B is VCC/RC (fixed-bias) or VCC/(RC+RE) if RE exists. Q = IBQ on the line.</p>
+    </div>
+  </div>
+
+  <h3>7–10 · AC drawings (Chapter 5)</h3>
+  <div class="grid g2">
+    <div class="card">
+      <p class="kicker">7 · CE re model (replaces the BJT)</p>
+      <svg class="sch" viewBox="0 0 320 180" aria-label="CE re model to draw">
+        <text x="12" y="22" font-size="13">B</text>
+        <line x1="24" y1="70" x2="50" y2="70" stroke="#1b2430" stroke-width="2"/>
+        <rect x="50" y="58" width="80" height="24" fill="none" stroke="#0f6b4c" stroke-width="2"/>
+        <text x="70" y="75" font-size="13">β re</text>
+        <line x1="130" y1="70" x2="130" y2="140" stroke="#1b2430" stroke-width="2"/>
+        <line x1="24" y1="140" x2="240" y2="140" stroke="#1b2430" stroke-width="2"/>
+        <text x="12" y="156" font-size="13">E</text>
+        <text x="248" y="36" font-size="13">C</text>
+        <line x1="220" y1="40" x2="220" y2="70" stroke="#1b2430" stroke-width="2"/>
+        <polygon points="220,92 213,70 227,70" fill="#1b2430"/>
+        <text x="232" y="78" font-size="13">β Ib</text>
+        <line x1="220" y1="92" x2="220" y2="140" stroke="#1b2430" stroke-width="2"/>
+        <rect x="258" y="50" width="16" height="70" fill="none" stroke="#888" stroke-width="2"/>
+        <text x="278" y="88" font-size="12">ro</text>
+        <line x1="266" y1="120" x2="266" y2="140" stroke="#1b2430" stroke-width="2"/>
+        <line x1="220" y1="50" x2="258" y2="50" stroke="#1b2430" stroke-width="2"/>
+      </svg>
+      <p class="note">Input = βre. Output = current source βIb with optional ro across it. re = 26 mV/IE.</p>
+    </div>
+    <div class="card">
+      <p class="kicker">8 · Common-base re model (ex 6, 7, 10)</p>
+      <svg class="sch" viewBox="0 0 320 180" aria-label="CB re model to draw">
+        <text x="12" y="22" font-size="13">E (input)</text>
+        <line x1="24" y1="70" x2="50" y2="70" stroke="#1b2430" stroke-width="2"/>
+        <rect x="50" y="58" width="70" height="24" fill="none" stroke="#0f6b4c" stroke-width="2"/>
+        <text x="72" y="75" font-size="13">re</text>
+        <line x1="120" y1="70" x2="120" y2="140" stroke="#1b2430" stroke-width="2"/>
+        <line x1="24" y1="140" x2="240" y2="140" stroke="#1b2430" stroke-width="2"/>
+        <text x="12" y="156" font-size="13">B (ground)</text>
+        <text x="248" y="36" font-size="13">C</text>
+        <line x1="220" y1="40" x2="220" y2="70" stroke="#1b2430" stroke-width="2"/>
+        <polygon points="220,70 213,92 227,92" fill="#1b2430"/>
+        <text x="232" y="78" font-size="13">α Ie</text>
+        <line x1="220" y1="92" x2="220" y2="140" stroke="#1b2430" stroke-width="2"/>
+        <text x="40" y="48" font-size="11">Zi ≈ re &nbsp; Av ≈ +RC/re &nbsp; no inversion</text>
+      </svg>
+      <p class="note">Look into the emitter, so Zi is tiny (just re). Current source is αIe, arrow often drawn up so Av is positive.</p>
+    </div>
+    <div class="card">
+      <p class="kicker">9 · Fixed-bias AC equivalent</p>
+      <svg class="sch" viewBox="0 0 320 190" aria-label="Fixed-bias AC to draw">
+        <text x="8" y="18" font-size="11" fill="#5b6573">VCC grounded · caps short · RB ∥ βre</text>
+        <line x1="24" y1="170" x2="300" y2="170" stroke="#1b2430" stroke-width="2"/>
+        <text x="8" y="48" font-size="12">Vi</text>
+        <line x1="40" y1="56" x2="40" y2="170" stroke="#1b2430" stroke-width="2"/>
+        <line x1="40" y1="56" x2="250" y2="56" stroke="#1b2430" stroke-width="2"/>
+        <rect x="70" y="56" width="14" height="60" fill="none" stroke="#1d4e89" stroke-width="2"/>
+        <text x="58" y="134" font-size="12">RB</text>
+        <rect x="130" y="56" width="14" height="60" fill="none" stroke="#0f6b4c" stroke-width="2"/>
+        <text x="112" y="134" font-size="12">βre</text>
+        <line x1="77" y1="116" x2="77" y2="170" stroke="#1b2430" stroke-width="2"/>
+        <line x1="137" y1="116" x2="137" y2="170" stroke="#1b2430" stroke-width="2"/>
+        <line x1="200" y1="56" x2="200" y2="78" stroke="#1b2430" stroke-width="2"/>
+        <polygon points="200,100 193,78 207,78" fill="#1b2430"/>
+        <text x="210" y="88" font-size="12">βIb</text>
+        <line x1="200" y1="100" x2="200" y2="170" stroke="#1b2430" stroke-width="2"/>
+        <rect x="236" y="56" width="14" height="60" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="254" y="88" font-size="12">RC</text>
+        <line x1="243" y1="116" x2="243" y2="170" stroke="#1b2430" stroke-width="2"/>
+        <text x="254" y="48" font-size="12">Vo</text>
+        <text x="8" y="70" font-size="11">Zi</text>
+        <text x="254" y="148" font-size="11">Zo</text>
+      </svg>
+      <p class="note">Draw Zi across the whole input, Zo looking into RC (and ro if given).</p>
+    </div>
+    <div class="card">
+      <p class="kicker">10 · Voltage-divider AC equivalent</p>
+      <svg class="sch" viewBox="0 0 320 190" aria-label="Voltage-divider AC to draw">
+        <text x="8" y="18" font-size="11" fill="#5b6573">R1 and R2 both to ground · RE gone</text>
+        <line x1="24" y1="170" x2="300" y2="170" stroke="#1b2430" stroke-width="2"/>
+        <line x1="40" y1="56" x2="40" y2="170" stroke="#1b2430" stroke-width="2"/>
+        <line x1="40" y1="56" x2="250" y2="56" stroke="#1b2430" stroke-width="2"/>
+        <rect x="58" y="56" width="14" height="50" fill="none" stroke="#1d4e89" stroke-width="2"/>
+        <text x="50" y="124" font-size="11">R1</text>
+        <rect x="86" y="56" width="14" height="50" fill="none" stroke="#1d4e89" stroke-width="2"/>
+        <text x="78" y="124" font-size="11">R2</text>
+        <text x="48" y="140" font-size="11">R′</text>
+        <rect x="140" y="56" width="14" height="60" fill="none" stroke="#0f6b4c" stroke-width="2"/>
+        <text x="122" y="134" font-size="12">βre</text>
+        <line x1="65" y1="106" x2="65" y2="170" stroke="#1b2430" stroke-width="2"/>
+        <line x1="93" y1="106" x2="93" y2="170" stroke="#1b2430" stroke-width="2"/>
+        <line x1="147" y1="116" x2="147" y2="170" stroke="#1b2430" stroke-width="2"/>
+        <line x1="200" y1="56" x2="200" y2="78" stroke="#1b2430" stroke-width="2"/>
+        <polygon points="200,100 193,78 207,78" fill="#1b2430"/>
+        <text x="210" y="88" font-size="12">βIb</text>
+        <line x1="200" y1="100" x2="200" y2="170" stroke="#1b2430" stroke-width="2"/>
+        <rect x="236" y="56" width="14" height="60" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="254" y="88" font-size="12">RC</text>
+        <rect x="268" y="56" width="14" height="60" fill="none" stroke="#888" stroke-width="2"/>
+        <text x="254" y="140" font-size="11">ro</text>
+        <line x1="243" y1="116" x2="243" y2="170" stroke="#1b2430" stroke-width="2"/>
+        <line x1="275" y1="116" x2="275" y2="170" stroke="#1b2430" stroke-width="2"/>
+        <text x="8" y="48" font-size="12">Vi</text>
+        <text x="254" y="48" font-size="12">Vo</text>
+      </svg>
+      <p class="note">Only difference from #9: RB is replaced by R1 ∥ R2. Output side is identical. RE must not appear.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <p class="kicker">Bonus if RL is on the paper · collector split</p>
+    <p>Draw Ic going into three parallels: ro, RC, RL. Circle RL and mark Io through it. That is the Case 1 / Case 2 page.</p>
+  </div>
+
+  <h3>What to draw vs what not to waste time on</h3>
+  <table>
+    <thead>
+      <tr><th>They ask</th><th>Draw this</th><th>Skip drawing</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>IB, IC, VCE</td><td>DC silhouette 1–5, caps open</td><td>re model</td></tr>
+      <tr><td>exact voltage-divider</td><td>#3 plus Thevenin #4</td><td>AC equivalent</td></tr>
+      <tr><td>load line / Q-point graph</td><td>#6 two intercepts + IB curve</td><td>full schematic again</td></tr>
+      <tr><td>sketch AC equivalent</td><td>#9 or #10 only</td><td>numbers</td></tr>
+      <tr><td>Zi, Zo, Av</td><td>tiny DC for IE, then #7 inside #9/#10</td><td>load line</td></tr>
+      <tr><td>Ai with RL</td><td>output split ro / RC / RL</td><td>input Thevenin</td></tr>
+    </tbody>
+  </table>
 </section>
 
 <section id="golden">
@@ -1238,7 +1567,7 @@
     </div>
   </div>
   <div class="callout">
-    <strong>Last 15 minutes of study:</strong> cover the formula sheet and redraw the four silhouettes from memory. Then solve one of each: fixed, emitter, divider exact, divider approx, collector FB, load line, design, re, Av. If those eight are clean, you can handle the paper.
+    <strong>Last 15 minutes of study:</strong> redraw the eight circuits in <a href="#draw">Draw these</a> from memory. Then solve one of each: fixed, emitter, divider exact, divider approx, collector FB, load line, design, re, Av.
   </div>
 </section>
 </main>
