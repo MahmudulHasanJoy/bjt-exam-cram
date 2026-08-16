@@ -164,6 +164,8 @@
   <a href="#loadline">Load line</a>
   <a href="#design">Design</a>
   <a href="#ac">Ch5 AC</a>
+  <a href="#photos">Your 2 pages</a>
+  <a href="#ch5cheat">Ch5 cheat</a>
   <a href="#calc">Calculators</a>
   <a href="#tricks">Memory tricks</a>
   <a href="#syllabus">Syllabus attack</a>
@@ -579,43 +581,95 @@
 </section>
 
 <section id="ac">
-  <h2>Chapter 5 — AC in four mechanical steps</h2>
+  <h2>Chapter 5 from zero — what this chapter even is</h2>
+  <p>Chapter 4 found the <strong>quiet DC point</strong> (Q-point): IB, IC, VCE, IE. Nothing is waving. Chapter 5 puts a <strong>tiny sine wave</strong> on the base and asks three numbers:</p>
+  <div class="grid g3">
+    <div class="card"><p class="kicker">Zi</p><h3>Input impedance</h3><p>How hard is it to push current into the amplifier? Zi = Vi / Ii. Big Zi is good: the source is not loaded down.</p></div>
+    <div class="card"><p class="kicker">Zo</p><h3>Output impedance</h3><p>What does the next stage see looking back? Zo = Vo / Io with the input killed. Small-ish Zo (about RC) is typical here.</p></div>
+    <div class="card"><p class="kicker">Av</p><h3>Voltage gain</h3><p>Av = Vo / Vi. For CE it is <strong>negative</strong> (180° flip). Size is about RC / re, often 100–300.</p></div>
+  </div>
+  <div class="callout ok">
+    <strong>The only bridge from Ch4 to Ch5:</strong>
+    <div class="formula ok">re = 26 mV / IE</div>
+    IE is the DC emitter current you already know. If IE = 2.6 mA, re = 10 Ω. That tiny re is why gain is huge: Av ≈ −RC / re.
+  </div>
+
+  <h3>5.3 How to turn any circuit into the AC picture (exercise 5)</h3>
+  <p>Do this on paper every time. No numbers yet.</p>
+  <ol class="steps">
+    <li><strong>VCC becomes a wire to ground.</strong> A DC battery does not change with the AC signal, so for AC it is a short. The top of RC and the top of R1 both land on ground.</li>
+    <li><strong>Every capacitor becomes a short.</strong> Coupling C1, C2 and bypass CE all disappear into wires.</li>
+    <li><strong>Delete what got shorted out.</strong> CE is across RE, so RE is gone from the AC drawing. That is the whole point of a bypass capacitor.</li>
+    <li><strong>Replace the transistor with the re model</strong> (next section).</li>
+  </ol>
   <div class="grid g2">
     <div class="card">
-      <p class="kicker">5.3 Modeling · exercise 5</p>
-      <p>A model replaces the transistor symbol with resistors + a controlled source so you can use ordinary circuit laws.</p>
-      <ol class="steps">
-        <li>DC sources → short (VCC becomes ground)</li>
-        <li>Every capacitor → short (coupling and bypass)</li>
-        <li>Delete parts that got shorted out (a bypassed RE disappears)</li>
-        <li>Redraw and insert the re model</li>
-      </ol>
+      <p class="kicker">Before · real amplifier</p>
+      <svg class="sch" viewBox="0 0 300 200" aria-label="Real CE amplifier">
+        <text x="10" y="18" font-size="12">C1, C2, CE present · VCC live</text>
+        <line x1="30" y1="32" x2="270" y2="32" stroke="#1b2430" stroke-width="2"/>
+        <text x="220" y="26" font-size="12">VCC</text>
+        <rect x="50" y="44" width="16" height="28" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="22" y="62" font-size="11">R1 / RB</text>
+        <rect x="50" y="100" width="16" height="28" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="28" y="118" font-size="11">R2</text>
+        <rect x="200" y="44" width="16" height="28" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="222" y="62" font-size="11">RC</text>
+        <line x1="58" y1="32" x2="58" y2="44" stroke="#1b2430" stroke-width="2"/>
+        <line x1="208" y1="32" x2="208" y2="44" stroke="#1b2430" stroke-width="2"/>
+        <line x1="58" y1="72" x2="58" y2="88" stroke="#1b2430" stroke-width="2"/>
+        <line x1="58" y1="88" x2="118" y2="108" stroke="#1b2430" stroke-width="2"/>
+        <line x1="58" y1="128" x2="58" y2="180" stroke="#1b2430" stroke-width="2"/>
+        <circle cx="140" cy="116" r="18" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <line x1="154" y1="104" x2="208" y2="88" stroke="#1b2430" stroke-width="2"/>
+        <line x1="148" y1="130" x2="148" y2="148" stroke="#1b2430" stroke-width="2"/>
+        <rect x="140" y="148" width="16" height="20" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="160" y="162" font-size="11">RE</text>
+        <line x1="148" y1="168" x2="148" y2="180" stroke="#1b2430" stroke-width="2"/>
+        <line x1="30" y1="180" x2="270" y2="180" stroke="#1b2430" stroke-width="2"/>
+        <text x="168" y="142" font-size="11" fill="#b42318">CE shorts this in AC</text>
+      </svg>
     </div>
     <div class="card">
-      <p class="kicker">Why CE bypass kills RE</p>
-      <svg class="sch" viewBox="0 0 320 120">
-        <text x="12" y="24" font-size="13">DC: CE is open, RE sets the Q-point</text>
-        <text x="12" y="48" font-size="13">AC: CE is a short, RE is gone from the AC circuit</text>
-        <text x="12" y="84" font-size="13">That is why Av is huge (−RC/re) even though DC used RE.</text>
+      <p class="kicker">After · AC equivalent</p>
+      <svg class="sch" viewBox="0 0 300 200" aria-label="AC equivalent">
+        <text x="10" y="18" font-size="12">VCC = ground · caps = shorts · RE gone</text>
+        <line x1="20" y1="170" x2="280" y2="170" stroke="#1b2430" stroke-width="2"/>
+        <text x="12" y="58" font-size="12">Vi</text>
+        <line x1="40" y1="70" x2="40" y2="170" stroke="#1b2430" stroke-width="2"/>
+        <line x1="40" y1="70" x2="250" y2="70" stroke="#1b2430" stroke-width="2"/>
+        <rect x="70" y="70" width="14" height="50" fill="none" stroke="#1d4e89" stroke-width="2"/>
+        <text x="62" y="138" font-size="11">Rin</text>
+        <text x="52" y="152" font-size="10">RB or R1∥R2</text>
+        <rect x="130" y="70" width="14" height="50" fill="none" stroke="#0f6b4c" stroke-width="2"/>
+        <text x="118" y="138" font-size="11">βre</text>
+        <line x1="77" y1="120" x2="77" y2="170" stroke="#1b2430" stroke-width="2"/>
+        <line x1="137" y1="120" x2="137" y2="170" stroke="#1b2430" stroke-width="2"/>
+        <line x1="200" y1="70" x2="200" y2="90" stroke="#1b2430" stroke-width="2"/>
+        <polygon points="200,110 194,90 206,90" fill="#1b2430"/>
+        <text x="210" y="100" font-size="11">βIb</text>
+        <line x1="200" y1="110" x2="200" y2="170" stroke="#1b2430" stroke-width="2"/>
+        <rect x="230" y="70" width="14" height="50" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="248" y="100" font-size="11">RC</text>
+        <line x1="237" y1="120" x2="237" y2="170" stroke="#1b2430" stroke-width="2"/>
+        <text x="248" y="58" font-size="12">Vo</text>
       </svg>
-      <p class="note">Exercise 5 is usually: sketch the AC equivalent of a given drawing. No calculator. Just short caps and ground the supplies.</p>
+      <p class="note">Rin is the only difference: fixed-bias uses RB. Voltage-divider uses R′ = R1 ∥ R2. Output side is identical.</p>
     </div>
   </div>
 
-  <h3>5.4 The re model · exercises 6, 7, 9, 10</h3>
+  <h3>5.4 The re model — the transistor becomes two pieces</h3>
   <div class="grid g2">
     <div class="card">
-      <div class="formula ok">re = 26 mV / IE</div>
-      <p>IE is the DC emitter current from Chapter 4. This is the bridge from DC to AC.</p>
-      <p><strong>Looking into the base (CE):</strong></p>
-      <div class="formula">Zi,base = (β+1) re ≈ β re</div>
-      <p><strong>Looking into the emitter (CB):</strong></p>
-      <div class="formula">Zi,emitter ≈ re &nbsp;&nbsp; (tiny, a few ohms to ~50 Ω)</div>
-      <p>Output: current source β Ib (CE) or α Ie (CB), optional ro in parallel.</p>
+      <p><strong>Input side (base to emitter):</strong> looks like a resistor βre. So the AC base current is simply Ohm’s law:</p>
+      <div class="formula">Ib = Vi / (β re)</div>
+      <p><strong>Output side (collector to emitter):</strong> a current source βIb, plus optional ro in parallel.</p>
+      <div class="formula">Ic = β Ib</div>
+      <p>Common-base (exercises 6, 7, 10): you look into the <em>emitter</em>, so Zi ≈ re (tiny), and the source is α Ie. No 180° flip.</p>
     </div>
     <div class="card">
       <svg class="sch" viewBox="0 0 340 170" aria-label="CE re model">
-        <text x="12" y="20" font-size="13">CE re model</text>
+        <text x="12" y="20" font-size="13">CE re model (this is what replaces the BJT symbol)</text>
         <text x="20" y="48" font-size="12">B</text>
         <rect x="40" y="70" width="70" height="22" fill="none" stroke="#1b2430" stroke-width="2"/>
         <text x="52" y="86" font-size="12">β re</text>
@@ -628,26 +682,207 @@
         <polygon points="250,90 242,78 258,78" fill="#1b2430"/>
         <text x="262" y="78" font-size="12">β Ib</text>
         <line x1="250" y1="90" x2="250" y2="130" stroke="#1b2430" stroke-width="2"/>
-        <text x="140" y="48" font-size="12" fill="#5b6573">input isolated from output</text>
+        <line x1="280" y1="50" x2="280" y2="90" stroke="#888" stroke-dasharray="4 3" stroke-width="2"/>
+        <text x="286" y="74" font-size="11" fill="#5b6573">ro (optional)</text>
       </svg>
-      <p>Typical: βre is hundreds of ohms to ~6 kΩ. ro is ~40–50 kΩ. CB input is just re.</p>
+      <p>Typical: βre is a few hundred ohms to ~6 kΩ. ro is ~40–50 kΩ. If the problem does not give ro, treat it as infinite and drop it.</p>
+    </div>
+  </div>
+</section>
+
+<section id="photos">
+  <h2>Your two notebook pages — cleaned up and compared</h2>
+  <div class="callout danger">
+    <strong>Trap on page 1:</strong> the heading says “For Fixed bias circuits,” but the <em>drawing</em> is a voltage-divider (R1, R2, RE, CE). The <em>formulas</em> on that page use RB, which is the fixed-bias name. Rule: if you see one resistor from VCC to base, call it RB. If you see two divider resistors, first make R′ = R1 ∥ R2, then use R′ exactly where the formula says RB.
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <p class="kicker">Page 1 formulas · 5.5 Fixed-bias AC</p>
+      <p>One base resistor RB. Emitter at AC ground (no RE, or RE bypassed).</p>
+      <svg class="sch" viewBox="0 0 320 210" aria-label="Fixed-bias AC equivalent">
+        <text x="8" y="18" font-size="12">Fixed-bias AC equivalent (your page-1 formulas)</text>
+        <line x1="20" y1="190" x2="300" y2="190" stroke="#1b2430" stroke-width="2"/>
+        <text x="8" y="48" font-size="12">Vi · Zi</text>
+        <line x1="40" y1="60" x2="250" y2="60" stroke="#1b2430" stroke-width="2"/>
+        <line x1="40" y1="60" x2="40" y2="190" stroke="#1b2430" stroke-width="2"/>
+        <rect x="70" y="60" width="16" height="70" fill="none" stroke="#1d4e89" stroke-width="2"/>
+        <text x="58" y="148" font-size="12">RB</text>
+        <rect x="130" y="60" width="16" height="70" fill="none" stroke="#0f6b4c" stroke-width="2"/>
+        <text x="112" y="148" font-size="12">βre</text>
+        <line x1="78" y1="130" x2="78" y2="190" stroke="#1b2430" stroke-width="2"/>
+        <line x1="138" y1="130" x2="138" y2="190" stroke="#1b2430" stroke-width="2"/>
+        <line x1="200" y1="60" x2="200" y2="85" stroke="#1b2430" stroke-width="2"/>
+        <polygon points="200,108 193,85 207,85" fill="#1b2430"/>
+        <text x="210" y="96" font-size="12">βIb</text>
+        <line x1="200" y1="108" x2="200" y2="190" stroke="#1b2430" stroke-width="2"/>
+        <rect x="236" y="60" width="16" height="70" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="256" y="90" font-size="12">RC</text>
+        <rect x="268" y="60" width="16" height="70" fill="none" stroke="#888" stroke-width="2" stroke-dasharray="4 3"/>
+        <text x="256" y="148" font-size="11">ro</text>
+        <line x1="244" y1="130" x2="244" y2="190" stroke="#1b2430" stroke-width="2"/>
+        <line x1="276" y1="130" x2="276" y2="190" stroke="#888" stroke-width="2"/>
+        <text x="250" y="48" font-size="12">Vo · Zo</text>
+      </svg>
+      <div class="formula">Zi = RB ∥ βre</div>
+      <div class="formula warn">If RB ≥ 10 βre → Zi ≅ βre</div>
+      <div class="formula">Zo = RC ∥ ro</div>
+      <div class="formula warn">If ro ≥ 10 RC (or ro not given) → Zo ≅ RC</div>
+    </div>
+    <div class="card">
+      <p class="kicker">Page 2 · 5.6 Voltage-divider AC</p>
+      <p>Two base resistors. Same transistor model. RE still gone because CE bypassed it.</p>
+      <svg class="sch" viewBox="0 0 320 210" aria-label="Voltage-divider AC equivalent">
+        <text x="8" y="18" font-size="12">Voltage-divider AC equivalent (your page 2)</text>
+        <line x1="20" y1="190" x2="300" y2="190" stroke="#1b2430" stroke-width="2"/>
+        <text x="8" y="48" font-size="12">Vi · Ii</text>
+        <line x1="40" y1="60" x2="250" y2="60" stroke="#1b2430" stroke-width="2"/>
+        <line x1="40" y1="60" x2="40" y2="190" stroke="#1b2430" stroke-width="2"/>
+        <rect x="58" y="60" width="14" height="54" fill="none" stroke="#1d4e89" stroke-width="2"/>
+        <text x="50" y="132" font-size="11">R1</text>
+        <rect x="86" y="60" width="14" height="54" fill="none" stroke="#1d4e89" stroke-width="2"/>
+        <text x="78" y="132" font-size="11">R2</text>
+        <text x="52" y="148" font-size="11">R′ = R1∥R2</text>
+        <rect x="140" y="60" width="16" height="70" fill="none" stroke="#0f6b4c" stroke-width="2"/>
+        <text x="122" y="148" font-size="12">βre</text>
+        <text x="128" y="48" font-size="11">B</text>
+        <line x1="65" y1="114" x2="65" y2="190" stroke="#1b2430" stroke-width="2"/>
+        <line x1="93" y1="114" x2="93" y2="190" stroke="#1b2430" stroke-width="2"/>
+        <line x1="148" y1="130" x2="148" y2="190" stroke="#1b2430" stroke-width="2"/>
+        <line x1="200" y1="60" x2="200" y2="85" stroke="#1b2430" stroke-width="2"/>
+        <polygon points="200,108 193,85 207,85" fill="#1b2430"/>
+        <text x="210" y="96" font-size="12">βIb</text>
+        <text x="208" y="48" font-size="11">C</text>
+        <line x1="200" y1="108" x2="200" y2="190" stroke="#1b2430" stroke-width="2"/>
+        <rect x="236" y="60" width="16" height="70" fill="none" stroke="#1b2430" stroke-width="2"/>
+        <text x="256" y="90" font-size="12">RC</text>
+        <rect x="268" y="60" width="16" height="70" fill="none" stroke="#888" stroke-width="2" stroke-dasharray="4 3"/>
+        <text x="256" y="148" font-size="11">ro</text>
+        <line x1="244" y1="130" x2="244" y2="190" stroke="#1b2430" stroke-width="2"/>
+        <line x1="276" y1="130" x2="276" y2="190" stroke="#888" stroke-width="2"/>
+        <text x="250" y="48" font-size="12">Vo · Io</text>
+      </svg>
+      <div class="formula">R′ = R1 ∥ R2 = R1 R2 / (R1+R2)</div>
+      <div class="formula">Zi = R′ ∥ βre = (R1 ∥ R2) ∥ βre</div>
+      <div class="formula">Zo = RC ∥ ro &nbsp; → &nbsp; Zo ≅ RC if ro ≥ 10 RC</div>
     </div>
   </div>
 
-  <h3>5.5 CE fixed-bias AC · exercises 11, 12, 13</h3>
-  <ol class="steps">
-    <li>DC: IB = (VCC−0.7)/RB, IE ≈ (β+1)IB, re = 26 mV / IE</li>
-    <li>Zi = RB ∥ βre &nbsp; ≈ βre if RB ≥ 10 βre</li>
-    <li>Zo = RC ∥ ro &nbsp; ≈ RC if ro ≥ 10 RC (or ro = ∞)</li>
-    <li>Av = −(RC ∥ ro) / re &nbsp; ≈ −RC / re</li>
-  </ol>
-  <p>The minus sign is a 180° inversion. Exercise 12 style: they give Av and ask for VCC. Work backwards: |Av| = RC/re so re = RC/|Av|, then IE = 26 mV/re, then IB = IE/(β+1), then VCC = IB RB + 0.7.</p>
+  <h3>Same Av derivation on both pages (copy this in the exam)</h3>
+  <div class="card">
+    <ol class="steps">
+      <li>Definition: Av = Vo / Vi</li>
+      <li>Output voltage is the current source times the collector load: Vo = − β Ib (RC ∥ ro). Minus because βIb is drawn down, so collector voltage goes opposite to Vi.</li>
+      <li>Base current from the input resistor of the model: Ib = Vi / (β re)</li>
+      <li>Substitute: Vo = − β (Vi / (β re)) (RC ∥ ro) = − Vi (RC ∥ ro) / re</li>
+      <li>β cancels. Final:</li>
+    </ol>
+    <div class="formula ok">Av = − (RC ∥ ro) / re</div>
+    <div class="formula warn">If ro ≥ 10 RC, or ro not given: Av = − RC / re</div>
+    <p>That is why both of your pages have the same Av. Fixed-bias vs voltage-divider only changes <strong>Zi</strong>. Zo and Av are the same shape.</p>
+  </div>
 
-  <h3>5.6 Voltage-divider AC · exercises 15, 16, 17</h3>
-  <p>RE is bypassed by CE, so it vanishes from AC. Voltage gain uses the same formula as fixed-bias.</p>
-  <div class="formula ok">R′ = R1 ∥ R2 &nbsp;&nbsp; Zi = R′ ∥ βre &nbsp;&nbsp; Zo ≈ RC &nbsp;&nbsp; Av ≈ −RC / re</div>
-  <div class="callout ok">
-    <strong>The one AC difference vs fixed-bias:</strong> Zi includes R1 ∥ R2 instead of RB. Zo and Av are the same shape. Do not forget: you still need a Chapter 4 DC analysis (exact or approx) to get IE before you can find re.
+  <table>
+    <thead>
+      <tr><th></th><th>Fixed-bias (page 1 formulas)</th><th>Voltage-divider (page 2)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>What sits next to βre</td><td>RB</td><td>R′ = R1 ∥ R2</td></tr>
+      <tr><td>Zi exact</td><td>RB ∥ βre</td><td>R′ ∥ βre</td></tr>
+      <tr><td>Zi approx</td><td>if RB ≥ 10 βre → βre</td><td>if R′ ≥ 10 βre → βre (rare; R′ is usually smaller)</td></tr>
+      <tr><td>Zo</td><td>RC ∥ ro ≅ RC</td><td>RC ∥ ro ≅ RC</td></tr>
+      <tr><td>Av</td><td>−(RC∥ro)/re ≅ −RC/re</td><td>exactly the same</td></tr>
+      <tr><td>How you get re</td><td>Ch4 fixed-bias DC → IE → 26 mV/IE</td><td>Ch4 divider DC (exact or approx) → IE → 26 mV/IE</td></tr>
+      <tr><td>RE in AC?</td><td>No (emitter at ground)</td><td>No (CE bypassed it)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="ch5cheat">
+  <h2>Chapter 5 cheat notes — any math on this syllabus</h2>
+  <p>Every Ch5 number is one of these six jobs. Identify the job, then run the steps. Parallel of two resistors is always R1 R2 / (R1+R2).</p>
+
+  <div class="card" style="margin-bottom:14px">
+    <p class="kicker">The 8-line exam script (do in this order)</p>
+    <ol class="steps">
+      <li>Is it a sketch or numbers? Sketch → short caps, ground VCC, drop bypassed RE, draw βre and βIb. Stop.</li>
+      <li>Identify: one RB = fixed-bias. R1 and R2 = voltage-divider. Input at emitter = common-base.</li>
+      <li>DC first. Find IE. Fixed: IB = (VCC−0.7)/RB, IE = (β+1)IB. Divider: 10× test, then exact or approx, IE ≈ IC.</li>
+      <li>re = 26 mV / IE &nbsp; (IE in amperes, or 26 / IE_mA gives ohms).</li>
+      <li>βre = β × re. Rin = RB or R1∥R2.</li>
+      <li>Zi = Rin ∥ βre. Test: if Rin ≥ 10 βre, Zi ≅ βre.</li>
+      <li>If ro given, test ro ≥ 10 RC. Yes or missing ro → Zo = RC and Av = −RC/re. No → Zo = RC∥ro and Av = −(RC∥ro)/re.</li>
+      <li>Sanity: re is ohms (often 5–40). |Av| is usually 50–400. Zi is usually under 3 kΩ. Minus sign on Av for CE.</li>
+    </ol>
+  </div>
+
+  <h3>Type A — Sketch the AC equivalent (5.3 ex 5)</h3>
+  <div class="card">
+    <p>Take from the figure: where Vi, Vo, R1/R2/RB, RC, RE, capacitors are. Take nothing numerical.</p>
+    <p>Write: VCC → ground, C1 C2 CE → shorts, RE gone, R1 and R2 both from base line to ground, RC from collector line to ground, transistor = βre on left and βIb on right.</p>
+  </div>
+
+  <h3>Type B — Find re, Zi, Zo, Av (5.5 ex 11, 13 and 5.6 ex 15, 17)</h3>
+  <div class="grid g2">
+    <div class="card">
+      <p class="kicker">Fixed-bias numbers</p>
+      <div class="formula">IB = (VCC − 0.7) / RB</div>
+      <div class="formula">IE = (β + 1) IB</div>
+      <div class="formula">re = 0.026 / IE</div>
+      <div class="formula">Zi = RB ∥ βre</div>
+      <div class="formula">Zo ≅ RC</div>
+      <div class="formula">Av ≅ − RC / re</div>
+    </div>
+    <div class="card">
+      <p class="kicker">Voltage-divider numbers</p>
+      <div class="formula">DC: 10× then exact or approx → IE</div>
+      <div class="formula">re = 0.026 / IE</div>
+      <div class="formula">R′ = R1 ∥ R2</div>
+      <div class="formula">Zi = R′ ∥ βre</div>
+      <div class="formula">Zo ≅ RC</div>
+      <div class="formula">Av ≅ − RC / re</div>
+    </div>
+  </div>
+  <p class="note">Worked shape (fixed-bias Ex 5.1): VCC=12 V, RB=470 kΩ, RC=3 kΩ, β=100 → IB=24.0 μA, IE=2.43 mA, re=10.7 Ω, Zi≈1.07 kΩ, Zo=3 kΩ, Av≈ −280.</p>
+
+  <h3>Type C — They give ro (compare with and without)</h3>
+  <div class="card">
+    <p>Do Type B once with ro = ∞. Then:</p>
+    <div class="formula">Zo = RC ∥ ro = RC ro / (RC + ro)</div>
+    <div class="formula">Av = − (RC ∥ ro) / re</div>
+    <p>|Av| and Zo both drop a little. If ro = 50 kΩ and RC = 3 kΩ, RC∥ro = 2.83 kΩ, so Av is about 6% smaller. That is the expected comparison sentence.</p>
+  </div>
+
+  <h3>Type D — Reverse: given Av, find VCC or RC (5.5 ex 12, 5.6 ex 16)</h3>
+  <div class="card">
+    <p>They give Av = −160 (ignore the minus for size). RC is on the figure.</p>
+    <ol class="steps">
+      <li>|Av| = RC / re  →  re = RC / |Av|</li>
+      <li>IE = 26 mV / re</li>
+      <li>IB = IE / (β+1)</li>
+      <li>Fixed-bias: VCC = IB RB + 0.7</li>
+      <li>If ro is given, first step is |Av| = (RC∥ro) / re, so re = (RC∥ro) / |Av|</li>
+    </ol>
+  </div>
+
+  <h3>Type E — re model only, no full amplifier (5.4 ex 6, 7, 9, 10)</h3>
+  <div class="card">
+    <table>
+      <tr><th>They say</th><th>You write</th></tr>
+      <tr><td>Find re from IE</td><td>re = 26 mV / IE</td></tr>
+      <tr><td>CE input impedance of the transistor</td><td>Zib = β re &nbsp; (not including RB)</td></tr>
+      <tr><td>CE, they give Zi of amplifier = 1.2 kΩ and β</td><td>If Zi ≈ βre, then re = Zi / β</td></tr>
+      <tr><td>Common-base, signal at emitter</td><td>Zi ≈ re, Av ≈ +RC / re (no minus), α = β/(β+1)</td></tr>
+      <tr><td>α given, IE given</td><td>re = 26 mV/IE, β = α/(1−α), Ic = α IE</td></tr>
+    </table>
+  </div>
+
+  <h3>Type F — Units so you do not lose 1000×</h3>
+  <div class="card">
+    <p>26 mV = 0.026 V. IE must be in amperes if you use 0.026, or keep the shortcut:</p>
+    <div class="formula ok">re (Ω) = 26 / IE(mA)</div>
+    <p>2.6 mA → 10 Ω. 1 mA → 26 Ω. 0.5 mA → 52 Ω.</p>
+    <p>kΩ × mA = V. βre in ohms: 100 × 10.7 Ω = 1070 Ω = 1.07 kΩ. Do not leave βre as 1070 kΩ.</p>
   </div>
 </section>
 
