@@ -165,6 +165,7 @@
   <a href="#design">Design</a>
   <a href="#ac">Ch5 AC</a>
   <a href="#photos">Your 2 pages</a>
+  <a href="#loaded">Ai Case 1 vs 2</a>
   <a href="#ch5cheat">Ch5 cheat</a>
   <a href="#calc">Calculators</a>
   <a href="#tricks">Memory tricks</a>
@@ -798,6 +799,121 @@
   </table>
 </section>
 
+<section id="loaded">
+  <h2>Your third page: Case 1 vs Case 2 — this is loaded-amplifier math</h2>
+  <p>Until the last two pages, Vo was taken across RC only. This page adds an extra resistor <strong>RL</strong> (a speaker, the next stage, a given load). Now collector current must <strong>split</strong>. That split is current gain Ai. Voltage gain Av is built from the same picture.</p>
+  <div class="callout">
+    <strong>What type of math is this?</strong> Output <em>current divider</em> + input <em>current divider</em>. You are not inventing a new transistor model. You are asking: of the current βIb, how much actually goes through RL?
+  </div>
+
+  <h3>The picture that both cases use</h3>
+  <div class="grid g2">
+    <div class="card">
+      <svg class="sch" viewBox="0 0 340 230" aria-label="Loaded CE output current divider">
+        <text x="10" y="20" font-size="13">Collector node C — three paths to ground</text>
+        <line x1="170" y1="40" x2="170" y2="70" stroke="#1b2430" stroke-width="2"/>
+        <polygon points="170,92 163,70 177,70" fill="#1b2430"/>
+        <text x="182" y="78" font-size="12">Ic = β Ib</text>
+        <line x1="170" y1="92" x2="170" y2="110" stroke="#1b2430" stroke-width="2"/>
+        <line x1="60" y1="110" x2="300" y2="110" stroke="#1b2430" stroke-width="2"/>
+        <rect x="70" y="110" width="16" height="55" fill="none" stroke="#888" stroke-width="2"/>
+        <text x="62" y="182" font-size="12">ro</text>
+        <rect x="162" y="110" width="16" height="55" fill="none" stroke="#1d4e89" stroke-width="2"/>
+        <text x="150" y="182" font-size="12">RC</text>
+        <rect x="254" y="110" width="16" height="55" fill="none" stroke="#0f6b4c" stroke-width="2"/>
+        <text x="248" y="182" font-size="12">RL</text>
+        <text x="248" y="196" font-size="11">Io goes here</text>
+        <line x1="78" y1="165" x2="78" y2="210" stroke="#1b2430" stroke-width="2"/>
+        <line x1="170" y1="165" x2="170" y2="210" stroke="#1b2430" stroke-width="2"/>
+        <line x1="262" y1="165" x2="262" y2="210" stroke="#1b2430" stroke-width="2"/>
+        <line x1="40" y1="210" x2="320" y2="210" stroke="#1b2430" stroke-width="2"/>
+        <text x="10" y="44" font-size="12">Vo across all three</text>
+      </svg>
+      <div class="formula">Vo = − Ic (ro ∥ RC ∥ RL)</div>
+      <p class="note">That is the formula at the top of your page: V = Ic (ro ∥ RC ∥ RL), with a minus for CE inversion.</p>
+    </div>
+    <div class="card">
+      <p class="kicker">Current divider for Io (through RL only)</p>
+      <p>Ic hits two lumps: the leftover collector stuff <strong>(ro ∥ RC)</strong>, and the load <strong>RL</strong>.</p>
+      <div class="formula ok">Io = Ic × (ro ∥ RC) / [(ro ∥ RC) + RL]</div>
+      <p>Then Vo = − Io RL (circled on your page). Same voltage, written from the load current.</p>
+      <p><strong>Case 1 vs Case 2 only changes (ro ∥ RC):</strong></p>
+      <p>If one of those two is ≥ 10× the other, drop the bigger one from the parallel pair. That is the same 10× club as Zi and Zo.</p>
+    </div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <p class="kicker">Case 1 · ro is large</p>
+      <p><span class="pill gold">If ro ≥ 10 RC</span> then ro steals almost no current. Ignore ro.</p>
+      <div class="formula warn">ro ∥ RC ≅ RC</div>
+      <svg class="sch" viewBox="0 0 300 130">
+        <text x="10" y="22" font-size="12">ro faded out · only RC and RL share Ic</text>
+        <line x1="40" y1="50" x2="260" y2="50" stroke="#1b2430" stroke-width="2"/>
+        <rect x="80" y="50" width="16" height="40" fill="none" stroke="#1d4e89" stroke-width="2"/>
+        <text x="72" y="108" font-size="12">RC</text>
+        <rect x="180" y="50" width="16" height="40" fill="none" stroke="#0f6b4c" stroke-width="2"/>
+        <text x="176" y="108" font-size="12">RL</text>
+        <rect x="20" y="50" width="16" height="40" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="3 3"/>
+        <text x="12" y="108" font-size="11" fill="#999">ro off</text>
+      </svg>
+      <div class="formula">Io = Ic × RC / (RC + RL)</div>
+      <p>If they also want overall Ai from the source current Ii (RB is in the picture):</p>
+      <div class="formula">Ai = Io / Ii = β × [RB / (RB + (β+1)re)] × [RC / (RC + RL)]</div>
+      <p class="note">Three pieces: input divider (how much of Ii becomes Ib) × β (Ib to Ic) × output divider (how much of Ic becomes Io). On your notes the last piece was written RC/(ro+RL). That mixes Case 1 with Case 2. For Case 1 the last piece is <strong>RC / (RC+RL)</strong>.</p>
+    </div>
+    <div class="card">
+      <p class="kicker">Case 2 · RC is huge or missing</p>
+      <p><span class="pill gold">If RC ≫ ro, or RC = ∞, or RB = ∞</span> then RC steals almost no current. Ignore RC.</p>
+      <div class="formula warn">ro ∥ RC ≅ ro</div>
+      <svg class="sch" viewBox="0 0 300 130">
+        <text x="10" y="22" font-size="12">RC faded out · only ro and RL share Ic</text>
+        <line x1="40" y1="50" x2="260" y2="50" stroke="#1b2430" stroke-width="2"/>
+        <rect x="80" y="50" width="16" height="40" fill="none" stroke="#888" stroke-width="2"/>
+        <text x="72" y="108" font-size="12">ro</text>
+        <rect x="180" y="50" width="16" height="40" fill="none" stroke="#0f6b4c" stroke-width="2"/>
+        <text x="176" y="108" font-size="12">RL</text>
+        <rect x="20" y="50" width="16" height="40" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="3 3"/>
+        <text x="12" y="108" font-size="11" fill="#999">RC off</text>
+      </svg>
+      <div class="formula">Io = Ic × ro / (ro + RL)</div>
+      <p>If RB is also infinite, all of Ii is Ib, so the input divider is 1:</p>
+      <div class="formula ok">Ai = β × [ro / (ro + RL)]</div>
+      <p>That boxed Case 2 formula on your page is this line.</p>
+    </div>
+  </div>
+
+  <h3>How your page builds Av from the same Io</h3>
+  <div class="card">
+    <ol class="steps">
+      <li>Definition: Av = Vo / Vi</li>
+      <li>Vo = − Io RL &nbsp; (minus = CE inversion)</li>
+      <li>Io = Ic × (ro∥RC) / [(ro∥RC) + RL] &nbsp; and Ic = β Ib</li>
+      <li>So Vo = − β Ib × (ro∥RC) / [(ro∥RC)+RL] × RL</li>
+      <li>Vi = (β+1) re Ib ≅ β re Ib &nbsp; (voltage across the transistor input)</li>
+      <li>Divide. β and Ib cancel. Fast form:</li>
+    </ol>
+    <div class="formula ok">Av = − (ro ∥ RC ∥ RL) / re</div>
+    <p>No RL on the figure? Then RL is infinite, drop it, and you are back to Av = −(RC∥ro)/re from the earlier pages.</p>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th></th><th>Case 1 · ignore ro</th><th>Case 2 · ignore RC</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>When</td><td>ro ≥ 10 RC</td><td>RC very large, or RC = ∞</td></tr>
+      <tr><td>Collector pair</td><td>RC only</td><td>ro only</td></tr>
+      <tr><td>Io / Ic</td><td>RC / (RC + RL)</td><td>ro / (ro + RL)</td></tr>
+      <tr><td>Ai if RB = ∞</td><td>β RC / (RC+RL)</td><td>β ro / (ro+RL)</td></tr>
+      <tr><td>Av</td><td>−(RC∥RL)/re</td><td>−(ro∥RL)/re</td></tr>
+    </tbody>
+  </table>
+  <div class="callout ok">
+    <strong>Exam shortcut if they already asked for Av:</strong> Ai = − Av × Zi / RL. Same numbers, almost no extra algebra. Zi is the amplifier input impedance from the previous pages.
+  </div>
+</section>
+
 <section id="ch5cheat">
   <h2>Chapter 5 cheat notes — any math on this syllabus</h2>
   <p>Every Ch5 number is one of these six jobs. Identify the job, then run the steps. Parallel of two resistors is always R1 R2 / (R1+R2).</p>
@@ -883,6 +999,13 @@
     <div class="formula ok">re (Ω) = 26 / IE(mA)</div>
     <p>2.6 mA → 10 Ω. 1 mA → 26 Ω. 0.5 mA → 52 Ω.</p>
     <p>kΩ × mA = V. βre in ohms: 100 × 10.7 Ω = 1070 Ω = 1.07 kΩ. Do not leave βre as 1070 kΩ.</p>
+  </div>
+
+  <h3>Type G — RL on the figure, they ask Ai or “case 1 / case 2”</h3>
+  <div class="card">
+    <p>This is the loaded page. Test ro vs RC first, then current-divide Ic into RL. Full pictures: <a href="#loaded">Ai Case 1 vs 2</a>.</p>
+    <div class="formula">Io = Ic (ro∥RC) / [(ro∥RC)+RL]</div>
+    <p>Case 1 (ro ≥ 10 RC): use RC in that formula. Case 2 (RC huge): use ro. Fast Ai if Av is known: Ai = −Av Zi / RL.</p>
   </div>
 </section>
 
